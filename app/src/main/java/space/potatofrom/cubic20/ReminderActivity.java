@@ -98,7 +98,7 @@ public class ReminderActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void stopNotifications(View button) {
+    public void stopNotifications(View button) {
         ReminderHelper.endTracking(this, true);
         murderThis();
     }
