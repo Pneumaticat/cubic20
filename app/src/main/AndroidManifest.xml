@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="space.potatofrom.cubic20">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReminderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_notification"
+            android:theme="@style/FullscreenTheme"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="space.potatofrom.cubic20.MainActivity" />
+        </activity>
+
+        <receiver
+            android:name=".OrderedBroadcastForwarder"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".NotificationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter android:priority="2">
+                <action android:name="space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER" />
+                <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="space.potatofrom.cubic20.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>

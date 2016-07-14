@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="@string/pref_key_reminder_interval_min"
+        android:summary="@string/pref_summary_reminder_interval_min"
+        android:title="@string/pref_title_reminder_interval_min"
+        android:defaultValue="20"
+        android:inputType="number" />
+    <EditTextPreference
+        android:key="@string/pref_key_reminder_length_sec"
+        android:summary="@string/pref_summary_reminder_length_sec"
+        android:title="@string/pref_title_reminder_length_sec"
+        android:defaultValue="20"
+        android:inputType="number" />
+    <CheckBoxPreference
+        android:key="@string/pref_key_start_on_boot"
+        android:summary="@string/pref_summary_start_on_boot"
+        android:title="@string/pref_title_start_on_boot"
+        android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="@string/pref_key_show_persistent_notification"
+        android:summary="@string/pref_summary_show_persistent_notification"
+        android:title="@string/pref_title_show_persistent_notification"
+        android:defaultValue="false" />
+</PreferenceScreen>
