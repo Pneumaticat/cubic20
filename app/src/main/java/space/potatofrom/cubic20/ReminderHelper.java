@@ -54,8 +54,15 @@ public class ReminderHelper {
      */
     public static long getSystemTimeAtNextAlarm(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return Long.parseLong(prefs.getString(
-                context.getString(R.string.pref_key_next_alarm_time), null));
+        final long errorValue = Long.MIN_VALUE;
+        long nextAlarmTime = prefs.getLong(
+                context.getString(R.string.pref_key_next_alarm_time), errorValue);
+        if (nextAlarmTime == errorValue) {
+            throw new IllegalStateException(
+                    "Attempted to get system time at next alarm when the next alarm time was not set.");
+        } else {
+            return nextAlarmTime;
+        }
     }
 
     /**
@@ -76,8 +83,8 @@ public class ReminderHelper {
      */
     public static boolean currentlyTracking(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean alarmTimeWritten =
-                prefs.getString(context.getString(R.string.pref_key_next_alarm_time), null) != null;
+        boolean alarmTimeWritten = prefs.getLong(context.getString(
+                R.string.pref_key_next_alarm_time), Long.MIN_VALUE) != Long.MIN_VALUE;
         boolean alarmSet = PendingIntent.getActivity(
                 context,
                 EYE_TIMER_CODE,
@@ -131,9 +138,9 @@ public class ReminderHelper {
     private static void setNextAlarmTime(Context context, long systemTimeMillis) {
         SharedPreferences.Editor prefEditor =
                 PreferenceManager.getDefaultSharedPreferences(context).edit();
-        prefEditor.putString(
+        prefEditor.putLong(
                 context.getString(R.string.pref_key_next_alarm_time),
-                String.valueOf(systemTimeMillis));
+                systemTimeMillis);
         prefEditor.apply();
     }
 
