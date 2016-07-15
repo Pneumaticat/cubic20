@@ -19,7 +19,6 @@ import android.widget.Toast;
 public class ReminderHelper {
     private static final int EYE_TIMER_CODE = 1;
     private static final int ONGOING_NOTIFICATION_ID = 1;
-    private static NotificationCompat.Builder notificationBuilder;
 
     private ReminderHelper() { }
 
