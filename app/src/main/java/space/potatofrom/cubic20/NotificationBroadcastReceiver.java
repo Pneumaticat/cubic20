@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 /**
  * Created by kevin on 7/12/16.
