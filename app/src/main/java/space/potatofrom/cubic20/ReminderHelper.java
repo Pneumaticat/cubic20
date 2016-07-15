@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 public class ReminderHelper {
     private static final int EYE_TIMER_CODE = 1;
     private static final int ONGOING_NOTIFICATION_ID = 1;
+    private static NotificationCompat.Builder notificationBuilder;
 
     private ReminderHelper() { }
 
@@ -174,6 +176,8 @@ public class ReminderHelper {
     }
 
     private static Notification getOngoingNotification(Context context) {
+        Bundle notificationExtras = new Bundle();
+
         return new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_brightness_medium_black_24dp)
                 .setContentTitle(context.getString(R.string.notification_title))
@@ -228,6 +232,7 @@ public class ReminderHelper {
                                 new Intent(context, SettingsActivity.class),
                                 PendingIntent.FLAG_UPDATE_CURRENT)).build())
                 .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .build();
     }
 }
