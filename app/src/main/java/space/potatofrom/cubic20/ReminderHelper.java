@@ -28,7 +28,7 @@ public class ReminderHelper {
     }
 
     /**
-     * Gets the reminder interval (minutes) from shared preferences.
+     * Gets the reminder interval (minutes) from shared preferences
      */
     public static int getReminderInterval(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -41,7 +41,7 @@ public class ReminderHelper {
     }
 
     /**
-     * Gets the reminder length (seconds) from shared preferences.
+     * Gets the reminder length (seconds) from shared preferences
      */
     public static int getReminderLength(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -50,7 +50,7 @@ public class ReminderHelper {
     }
 
     /**
-     * Returns the system time, in milliseconds, of the next scheduled alarm.
+     * Returns the system time, in milliseconds, of the next scheduled alarm
      */
     public static long getSystemTimeAtNextAlarm(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -59,7 +59,7 @@ public class ReminderHelper {
     }
 
     /**
-     * Returns the time, in milliseconds, until the next scheduled alarm.
+     * Returns the time, in milliseconds, until the next scheduled alarm
      */
     public static long getTimeUntilAlarmMillis(Context context) {
         return getSystemTimeAtNextAlarm(context) - System.currentTimeMillis();
@@ -121,8 +121,8 @@ public class ReminderHelper {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             if (prefs.getBoolean(
                     context.getString(R.string.pref_key_show_persistent_notification), false)) {
-                NotificationManager notMan =
-                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                NotificationManager notMan = (NotificationManager)
+                        context.getSystemService(Context.NOTIFICATION_SERVICE);
                 notMan.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
             }
         }
