@@ -65,9 +65,38 @@ public class ReminderHelper {
         return getSystemTimeAtNextAlarm(context) - System.currentTimeMillis();
     }
 
+    /**
+     * Determines whether or not tracking is currently active
+     *
+     * Checks the saved next-alarm-time as well as whether or not an alarm is
+     * actually set, and after resolving inconsistencies between the two,
+     * returns an answer.
+     *
+     * @return Whether or not we're currently tracking
+     */
     public static boolean currentlyTracking(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getString(context.getString(R.string.pref_key_next_alarm_time), null) != null;
+        boolean alarmTimeWritten =
+                prefs.getString(context.getString(R.string.pref_key_next_alarm_time), null) != null;
+        boolean alarmSet = PendingIntent.getActivity(
+                context,
+                EYE_TIMER_CODE,
+                getNotificationIntent(context),
+                PendingIntent.FLAG_NO_CREATE) != null;
+
+        // Handle inconsistencies that might arise from, for example, if the
+        // device is restarted while the alarm is running.
+        if (!alarmSet && alarmTimeWritten) {
+            // We're in a weird state, remove the alarm time.
+            removeNextAlarmTime(context);
+            return false;
+        } else if (alarmSet && !alarmTimeWritten) {
+            // We're in a weird state, remove the alarm.
+            removeAlarm(context);
+            return false;
+        } else {
+            return alarmSet; // If we're here, both values should be identical
+        }
     }
 
     public static void beginTracking(Context context, boolean displayUi) {
@@ -75,18 +104,7 @@ public class ReminderHelper {
             throw new IllegalStateException(
                     "Attempted to enable tracking when tracking is already enabled.");
 
-        long reminderIntervalMillis = getReminderIntervalMillis(context);
-        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + reminderIntervalMillis, // run at:
-                reminderIntervalMillis, // interval
-                // Launch notification activity
-                PendingIntent.getActivity(
-                        context,
-                        EYE_TIMER_CODE,
-                        getNotificationIntent(context),
-                        PendingIntent.FLAG_UPDATE_CURRENT));
+        createAlarm(context);
 
         updateNextAlarmTime(context);
 
@@ -133,6 +151,29 @@ public class ReminderHelper {
         prefEditor.apply();
     }
 
+    private static void createAlarm(Context context) {
+        long reminderIntervalMillis = getReminderIntervalMillis(context);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + reminderIntervalMillis, // run at:
+                reminderIntervalMillis, // interval
+                // Launch notification activity
+                PendingIntent.getActivity(
+                        context,
+                        EYE_TIMER_CODE,
+                        getNotificationIntent(context),
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+    }
+
+    private static void removeAlarm(Context context) {
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(PendingIntent.getActivity(
+                context,
+                EYE_TIMER_CODE,
+                getNotificationIntent(context),
+                PendingIntent.FLAG_NO_CREATE));
+    }
 
     public static void postponeNextReminder(Context context, boolean displayUi) {
         setNextAlarmTime(context,
@@ -158,12 +199,7 @@ public class ReminderHelper {
             throw new IllegalStateException(
                     "Attempted to disable tracking when tracking is already inactive.");
 
-        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(PendingIntent.getActivity(
-                context,
-                EYE_TIMER_CODE,
-                getNotificationIntent(context),
-                PendingIntent.FLAG_NO_CREATE));
+        removeAlarm(context);
 
         removeNextAlarmTime(context);
 
