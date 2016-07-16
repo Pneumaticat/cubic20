@@ -28,7 +28,9 @@ public class ReminderActivity extends AppCompatActivity {
             switch (action) {
                 case "space.potatofrom.cubic20.HIT_REMINDER":
                     // Start ReminderActivity
-                    context.startActivity(new Intent(context, ReminderActivity.class));
+                    Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                    reminderIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(reminderIntent);
                     break;
                 default:
                     throw new UnsupportedOperationException(
