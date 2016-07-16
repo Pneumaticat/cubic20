@@ -21,7 +21,7 @@ import android.widget.TextView;
  * status bar and navigation/system bar) with user interaction.
  */
 public class ReminderActivity extends AppCompatActivity {
-    public class ReminderReceiver extends BroadcastReceiver {
+    public static class ReminderReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

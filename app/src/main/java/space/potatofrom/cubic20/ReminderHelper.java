@@ -29,7 +29,7 @@ public class ReminderHelper {
      * When the reminder alarm fires, this sets another alarm in its place
      * [reminder interval] in the future.
      */
-    public class ReminderBroadcastReceiver extends BroadcastReceiver {
+    public static class ReminderBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
