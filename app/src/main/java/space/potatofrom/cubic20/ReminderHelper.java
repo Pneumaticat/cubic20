@@ -70,6 +70,20 @@ public class ReminderHelper {
         return getSystemTimeAtNextAlarm(context) - System.currentTimeMillis();
     }
 
+    private static boolean isAlarmSet(Context context) {
+        return PendingIntent.getBroadcast(
+                context,
+                EYE_TIMER_CODE,
+                getReminderBroadcastIntent(context),
+                PendingIntent.FLAG_NO_CREATE) != null;
+    }
+
+    private static boolean isNextAlarmTimePrefSet(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return prefs.getLong(context.getString(
+                R.string.pref_key_next_alarm_time), Long.MIN_VALUE) != Long.MIN_VALUE;
+    }
+
     /**
      * Determines whether or not tracking is currently active
      *
@@ -80,14 +94,8 @@ public class ReminderHelper {
      * @return Whether or not we're currently tracking
      */
     public static boolean currentlyTracking(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean alarmTimeWritten = prefs.getLong(context.getString(
-                R.string.pref_key_next_alarm_time), Long.MIN_VALUE) != Long.MIN_VALUE;
-        boolean alarmSet = PendingIntent.getActivity(
-                context,
-                EYE_TIMER_CODE,
-                getNotificationIntent(context),
-                PendingIntent.FLAG_NO_CREATE) != null;
+        boolean alarmTimeWritten = isNextAlarmTimePrefSet(context);
+        boolean alarmSet = isAlarmSet(context);
 
         // Handle inconsistencies that might arise from, for example, if the
         // device is restarted while the alarm is running.
