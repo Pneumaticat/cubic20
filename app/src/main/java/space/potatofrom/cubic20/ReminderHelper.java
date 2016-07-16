@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,8 +22,31 @@ public class ReminderHelper {
 
     private ReminderHelper() { }
 
-    private static Intent getNotificationIntent(Context context) {
-        return new Intent(context, ReminderActivity.class);
+    /**
+     * Updates alarm when it fires
+     *
+     * When the reminder alarm fires, this sets another alarm in its place
+     * [reminder interval] in the future.
+     */
+    public class ReminderBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case "space.potatofrom.cubic20.HIT_REMINDER":
+                    // Set next alarm
+                    createAlarm(context);
+                    updateNextAlarmTimePref(context);
+                    break;
+                default:
+                    throw new UnsupportedOperationException(
+                            "This broadcast receiver does not implement action " + action);
+            }
+        }
+    }
+
+    private static Intent getReminderBroadcastIntent(Context context) {
+        return new Intent("space.potatofrom.cubic20.HIT_REMINDER");
     }
 
     /**
@@ -172,19 +196,19 @@ public class ReminderHelper {
                 SystemClock.elapsedRealtime() + reminderIntervalMillis, // run at:
                 reminderIntervalMillis, // interval
                 // Launch notification activity
-                PendingIntent.getActivity(
+                PendingIntent.getBroadcast(
                         context,
                         EYE_TIMER_CODE,
-                        getNotificationIntent(context),
+                        getReminderBroadcastIntent(context),
                         PendingIntent.FLAG_UPDATE_CURRENT));
     }
 
     private static void removeAlarm(Context context) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(PendingIntent.getActivity(
+        manager.cancel(PendingIntent.getBroadcast(
                 context,
                 EYE_TIMER_CODE,
-                getNotificationIntent(context),
+                getReminderBroadcastIntent(context),
                 PendingIntent.FLAG_NO_CREATE));
     }
 

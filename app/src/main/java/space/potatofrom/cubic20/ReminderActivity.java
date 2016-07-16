@@ -1,5 +1,8 @@
 package space.potatofrom.cubic20;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +21,22 @@ import android.widget.TextView;
  * status bar and navigation/system bar) with user interaction.
  */
 public class ReminderActivity extends AppCompatActivity {
+    public class ReminderReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case "space.potatofrom.cubic20.HIT_REMINDER":
+                    // Start ReminderActivity
+                    context.startActivity(new Intent(context, ReminderActivity.class));
+                    break;
+                default:
+                    throw new UnsupportedOperationException(
+                            "This broadcast receiver does not implement action " + action);
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

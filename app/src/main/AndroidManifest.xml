@@ -51,6 +51,20 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".ReminderHelper$ReminderBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ReminderActivity$ReminderReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".AboutActivity"
@@ -62,5 +76,4 @@
                 android:value="space.potatofrom.cubic20.MainActivity" />
         </activity>
     </application>
-
 </manifest>

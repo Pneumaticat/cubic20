@@ -23,7 +23,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 }
                 break;
             case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
-                ReminderHelper.postponeNextReminder(context, true);
+                ReminderHelper.updateNextReminderTime(context, true);
                 break;
             case "space.potatofrom.cubic20.STOP_REMINDERS":
                 int notificationId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, 0);
