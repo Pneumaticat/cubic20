@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
@@ -189,18 +190,27 @@ public class ReminderHelper {
     }
 
     private static void createAlarm(Context context) {
-        long reminderIntervalMillis = getReminderIntervalMillis(context);
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
+        long runAt = SystemClock.elapsedRealtime() + getReminderIntervalMillis(context);
+        PendingIntent pendingBroadcast = PendingIntent.getBroadcast(
+                context,
+                EYE_TIMER_CODE,
+                getReminderBroadcastIntent(context),
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + reminderIntervalMillis, // run at:
-                reminderIntervalMillis, // interval
-                // Launch notification activity
-                PendingIntent.getBroadcast(
-                        context,
-                        EYE_TIMER_CODE,
-                        getReminderBroadcastIntent(context),
-                        PendingIntent.FLAG_UPDATE_CURRENT));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Bypass Doze & inexactness to always trigger at the specified
+            // time, no matter what
+            manager.setExactAndAllowWhileIdle(alarmType, runAt, pendingBroadcast);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // Bypass inexactness to always trigger at the specified time
+            manager.setExact(alarmType, runAt, pendingBroadcast);
+        } else {
+            // Just set the alarm. What kind of Android device are we running
+            // on, anyway?? I mean seriously. Not even KitKat?
+            manager.set(alarmType, runAt, pendingBroadcast);
+        }
     }
 
     private static void removeAlarm(Context context) {
