@@ -38,7 +38,7 @@ public class ReminderActivity extends AppCompatActivity {
 
         int reminderLength = ReminderHelper.getReminderLength(this);
 
-        ReminderHelper.updateNextAlarmTime(this);
+        ReminderHelper.updateNextAlarmTimePref(this);
 
         final Handler handler = new Handler();
         final TextView counterDown = (TextView) findViewById(R.id.notification_counterdown);

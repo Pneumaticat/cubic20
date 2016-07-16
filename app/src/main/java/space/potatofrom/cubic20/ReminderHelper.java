@@ -94,7 +94,7 @@ public class ReminderHelper {
         // device is restarted while the alarm is running.
         if (!alarmSet && alarmTimeWritten) {
             // We're in a weird state, remove the alarm time.
-            removeNextAlarmTime(context);
+            removeNextAlarmTimePref(context);
             return false;
         } else if (alarmSet && !alarmTimeWritten) {
             // We're in a weird state, remove the alarm.
@@ -112,7 +112,7 @@ public class ReminderHelper {
 
         createAlarm(context);
 
-        updateNextAlarmTime(context);
+        updateNextAlarmTimePref(context);
 
         if (displayUi) {
             Toast.makeText(
@@ -134,7 +134,7 @@ public class ReminderHelper {
         }
     }
 
-    private static void setNextAlarmTime(Context context, long systemTimeMillis) {
+    private static void setNextAlarmTimePref(Context context, long systemTimeMillis) {
         SharedPreferences.Editor prefEditor =
                 PreferenceManager.getDefaultSharedPreferences(context).edit();
         prefEditor.putLong(
@@ -146,11 +146,11 @@ public class ReminderHelper {
     /**
      * Updates the next alarm time to be current time + [reminder interval].
      */
-    public static void updateNextAlarmTime(Context context) {
-        setNextAlarmTime(context, System.currentTimeMillis() + getReminderIntervalMillis(context));
+    public static void updateNextAlarmTimePref(Context context) {
+        setNextAlarmTimePref(context, System.currentTimeMillis() + getReminderIntervalMillis(context));
     }
 
-    private static void removeNextAlarmTime(Context context) {
+    private static void removeNextAlarmTimePref(Context context) {
         SharedPreferences.Editor prefEditor =
                 PreferenceManager.getDefaultSharedPreferences(context).edit();
         prefEditor.remove(context.getString(R.string.pref_key_next_alarm_time));
@@ -207,7 +207,7 @@ public class ReminderHelper {
 
         removeAlarm(context);
 
-        removeNextAlarmTime(context);
+        removeNextAlarmTimePref(context);
 
         if (displayUi) {
             Toast.makeText(
