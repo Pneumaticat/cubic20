@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
@@ -218,8 +217,6 @@ public class ReminderHelper {
     }
 
     private static Notification getOngoingNotification(Context context) {
-        Bundle notificationExtras = new Bundle();
-
         return new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_brightness_medium_black_24dp)
                 .setContentTitle(context.getString(R.string.notification_title))
