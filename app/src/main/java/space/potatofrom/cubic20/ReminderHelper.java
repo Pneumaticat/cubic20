@@ -188,9 +188,23 @@ public class ReminderHelper {
                 PendingIntent.FLAG_NO_CREATE));
     }
 
-    public static void postponeNextReminder(Context context, boolean displayUi) {
-        setNextAlarmTime(context,
-                getSystemTimeAtNextAlarm(context) + getReminderIntervalMillis(context));
+    /**
+     * Update the underlying alarm's time to be [reminder-interval] in the future.
+     */
+    private static void updateAlarm(Context context) {
+        if (!isAlarmSet(context)) {
+            throw new IllegalStateException(
+                    "Attempted to postpone alarm when alarm isn't set.");
+        } else {
+            // Alarm is set
+            removeAlarm(context);
+            createAlarm(context);
+        }
+    }
+
+    public static void updateNextReminderTime(Context context, boolean displayUi) {
+        updateAlarm(context);
+        updateNextAlarmTimePref(context);
 
         if (displayUi) {
             long millisUntilAlarm = ReminderHelper.getTimeUntilAlarmMillis(context);
@@ -202,7 +216,7 @@ public class ReminderHelper {
                     seconds);
             Toast.makeText(
                     context,
-                    context.getString(R.string.toast_postponed_alarm, nextAlarmTime),
+                    context.getString(R.string.toast_updated_alarm, nextAlarmTime),
                     Toast.LENGTH_SHORT).show();
         }
     }

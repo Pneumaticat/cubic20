@@ -40,7 +40,7 @@
         <item quantity="other">You will now be reminded every %1$d minutes to rest your eyes.</item>
     </plurals>
     <string name="toast_removed_alarm">Reminders have now stopped.</string>
-    <string name="toast_postponed_alarm">Next reminder has been postponed to %1$s in the future.</string>
+    <string name="toast_updated_alarm">Next reminder has been updated to be %1$s in the future.</string>
 
     <string name="title_activity_notification">Time to Look Away!</string>
     <plurals name="look_away_desc">
