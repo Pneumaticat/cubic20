@@ -44,8 +44,8 @@
 
     <string name="title_activity_notification">Time to Look Away!</string>
     <plurals name="look_away_desc">
-        <item quantity="one">For %1$d seconds, look at something 20+ feet away.</item>
-        <item quantity="other">For %1$d second, look at something 20+ feet away.</item>
+        <item quantity="one">For %1$d second, look at something 20+ feet away.</item>
+        <item quantity="other">For %1$d seconds, look at something 20+ feet away.</item>
     </plurals>
     <string name="stop_notifications_btn">Stop Notifications</string>
 
