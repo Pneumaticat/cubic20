@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
 
         public CountdownTimerTask(long timerInterval) {
             TIMER_INTERVAL = timerInterval;
-            TIME_UNTIL_ALARM = ReminderHelper.getTimeUntilAlarmMillis(getBaseContext());
+            TIME_UNTIL_ALARM = ReminderHelper.getTimeUntilAlarmPrefMillis(getBaseContext());
             COUNTDOWN_FORMAT = getString(R.string.time_until_alarm_format);
         }
 
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Initialize variables that correspond to view elements
-        beginTrackingMenuItem = navigationView.getMenu().findItem(R.id.begin_tracking);
-        endTrackingMenuItem = navigationView.getMenu().findItem(R.id.end_tracking);
+        beginTrackingMenuItem = navigationView.getMenu().findItem(R.id.start_reminders);
+        endTrackingMenuItem = navigationView.getMenu().findItem(R.id.stop_reminders);
         alarmStatus = (TextView) findViewById(R.id.alarm_status);
         countdownDisplayContainer = (LinearLayout) findViewById(R.id.countdown_display_container);
         countdownDisplay = (TextView) findViewById(R.id.countdown_display_text);
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity
         filter.addAction("space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER");
         registerReceiver(updateUiBroadcastReceiver, filter);
 
-        updateTrackingStatus(ReminderHelper.currentlyTracking(this));
+        updateTrackingStatus(ReminderHelper.areRemindersActive(this));
     }
 
     @Override
@@ -181,10 +181,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.begin_tracking:
+            case R.id.start_reminders:
                 ReminderHelper.sendStartRemindersBroadcast(this);
                 break;
-            case R.id.end_tracking:
+            case R.id.stop_reminders:
                 ReminderHelper.sendStopRemindersBroadcast(this);
                 break;
             default:

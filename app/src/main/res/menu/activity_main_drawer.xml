@@ -3,13 +3,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/begin_tracking"
+            android:id="@+id/start_reminders"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/begin_tracking" />
+            android:title="@string/main_drawer_start_reminders" />
         <item
-            android:id="@+id/end_tracking"
+            android:id="@+id/stop_reminders"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/end_tracking"
+            android:title="@string/main_drawer_stop_reminders"
             android:enabled="false" />
     </group>
 

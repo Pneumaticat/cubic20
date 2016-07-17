@@ -1,8 +1,6 @@
 package space.potatofrom.cubic20;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,8 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
 /**
@@ -35,7 +31,7 @@ public class ReminderHelper {
             String action = intent.getAction();
             switch (action) {
                 case "space.potatofrom.cubic20.START_REMINDERS":
-                    beginTracking(context, true);
+                    startReminders(context, true);
                     break;
                 case "space.potatofrom.cubic20.STOP_REMINDERS":
                     endTracking(context, true);
@@ -84,7 +80,7 @@ public class ReminderHelper {
     /**
      * Returns the system time, in milliseconds, of the next scheduled alarm
      */
-    public static long getSystemTimeAtNextAlarm(Context context) {
+    public static long getNextAlarmTimePref(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final long errorValue = Long.MIN_VALUE;
         long nextAlarmTime = prefs.getLong(
@@ -100,8 +96,8 @@ public class ReminderHelper {
     /**
      * Returns the time, in milliseconds, until the next scheduled alarm
      */
-    public static long getTimeUntilAlarmMillis(Context context) {
-        return getSystemTimeAtNextAlarm(context) - System.currentTimeMillis();
+    public static long getTimeUntilAlarmPrefMillis(Context context) {
+        return getNextAlarmTimePref(context) - System.currentTimeMillis();
     }
 
     private static boolean isAlarmSet(Context context) {
@@ -127,7 +123,7 @@ public class ReminderHelper {
      *
      * @return Whether or not we're currently tracking
      */
-    public static boolean currentlyTracking(Context context) {
+    public static boolean areRemindersActive(Context context) {
         boolean alarmTimeWritten = isNextAlarmTimePrefSet(context);
         boolean alarmSet = isAlarmSet(context);
 
@@ -146,8 +142,8 @@ public class ReminderHelper {
         }
     }
 
-    private static void beginTracking(Context context, boolean displayUi) {
-        if (currentlyTracking(context))
+    private static void startReminders(Context context, boolean displayUi) {
+        if (areRemindersActive(context))
             throw new IllegalStateException(
                     "Attempted to enable tracking when tracking is already enabled.");
 
@@ -226,13 +222,6 @@ public class ReminderHelper {
                 PendingIntent.FLAG_NO_CREATE));
     }
 
-    /**
-     * Update the underlying alarm's time to be [reminder-interval] in the future.
-     */
-    private static void updateAlarm(Context context) {
-        updateAlarm(context, getReminderIntervalMillis(context));
-    }
-
     private static void updateAlarm(Context context, long timeInFutureMillis) {
         if (!isAlarmSet(context)) {
             throw new IllegalStateException(
@@ -247,13 +236,13 @@ public class ReminderHelper {
     public static void postponeNextReminder(Context context, boolean displayUi) {
         updateAlarm(
                 context,
-                getSystemTimeAtNextAlarm(context) + getReminderIntervalMillis(context));
+                getNextAlarmTimePref(context) + getReminderIntervalMillis(context));
         setNextAlarmTimePref(
                 context,
-                getSystemTimeAtNextAlarm(context) + getReminderIntervalMillis(context));
+                getNextAlarmTimePref(context) + getReminderIntervalMillis(context));
 
         if (displayUi) {
-            long millisUntilAlarm = ReminderHelper.getTimeUntilAlarmMillis(context);
+            long millisUntilAlarm = ReminderHelper.getTimeUntilAlarmPrefMillis(context);
             long seconds = (millisUntilAlarm / 1000) % 60;
             long minutes = (millisUntilAlarm / (1000 * 60));
             String nextAlarmTime = context.getString(
@@ -268,7 +257,7 @@ public class ReminderHelper {
     }
 
     private static void endTracking(Context context, boolean displayUi) {
-        if (!currentlyTracking(context))
+        if (!areRemindersActive(context))
             throw new IllegalStateException(
                     "Attempted to disable tracking when tracking is already inactive.");
 
