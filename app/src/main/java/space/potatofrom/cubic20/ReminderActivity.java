@@ -21,6 +21,9 @@ import android.widget.TextView;
  * status bar and navigation/system bar) with user interaction.
  */
 public class ReminderActivity extends AppCompatActivity {
+    // Used to stop countdown after finish()
+    private boolean closed = false;
+
     public static class ReminderReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -81,26 +84,28 @@ public class ReminderActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        int previous = Integer.parseInt(counterDown.getText().toString());
-                        int current = previous - 1;
-                        counterDown.setText(String.valueOf(current));
-                        if (current > 0) {
-                            // Wait for it, wait for it
-                            handler.postDelayed(this, COUNTDOWN_INTERVAL_MILLIS);
-                        } else {
-                            // Countdown has reached 0
-                            // Vibrate as feedback that the countdown has
-                            // completed.
+                        if (!closed) {
+                            int previous = Integer.parseInt(counterDown.getText().toString());
+                            int current = previous - 1;
+                            counterDown.setText(String.valueOf(current));
+                            if (current > 0) {
+                                // Wait for it, wait for it
+                                handler.postDelayed(this, COUNTDOWN_INTERVAL_MILLIS);
+                            } else {
+                                // Countdown has reached 0
+                                // Vibrate as feedback that the countdown has
+                                // completed.
 
-                            vibrator.vibrate(500);
+                                vibrator.vibrate(500);
 
-                            // Then wait 3 seconds and close the activity.
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    murderThis();
-                                }
-                            }, 3000);
+                                // Then wait 3 seconds and close the activity.
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        close();
+                                    }
+                                }, 3000);
+                            }
                         }
                     }
                 });
@@ -120,14 +125,15 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     public void stopNotifications(View button) {
-        ReminderHelper.endTracking(this, true);
-        murderThis();
+        ReminderHelper.sendStopRemindersBroadcast(this);
+        close();
     }
 
     /**
      * Probably not good practice. Oh well.
      */
-    private void murderThis() {
-        android.os.Process.killProcess(android.os.Process.myPid());
+    private void close() {
+        finish();
+        closed = true;
     }
 }

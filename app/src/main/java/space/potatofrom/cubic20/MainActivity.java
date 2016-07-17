@@ -73,7 +73,19 @@ public class MainActivity extends AppCompatActivity
     private BroadcastReceiver updateUiBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            updateTrackingStatus(ReminderHelper.currentlyTracking(context));
+            String action = intent.getAction();
+            switch (action) {
+                case "space.potatofrom.cubic20.START_REMINDERS":
+                    updateTrackingStatus(true);
+                    break;
+                case "space.potatofrom.cubic20.STOP_REMINDERS":
+                case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
+                    updateTrackingStatus(false);
+                    break;
+                default:
+                    throw new UnsupportedOperationException(
+                            "The update ui broadcast receiver does not support action " + action);
+            }
         }
     };
 
@@ -109,7 +121,8 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         IntentFilter filter = new IntentFilter();
-        filter.setPriority(1); // Less than 2, which is the priority of NotificationBR, to run after it
+        filter.setPriority(1); // Less than 2, which is the priority of ReminderHelper's, to run after it
+        filter.addAction("space.potatofrom.cubic20.START_REMINDERS");
         filter.addAction("space.potatofrom.cubic20.STOP_REMINDERS");
         filter.addAction("space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER");
         registerReceiver(updateUiBroadcastReceiver, filter);
@@ -169,10 +182,10 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.begin_tracking:
-                beginTracking();
+                ReminderHelper.sendStartRemindersBroadcast(this);
                 break;
             case R.id.end_tracking:
-                endTracking();
+                ReminderHelper.sendStopRemindersBroadcast(this);
                 break;
             default:
                 throw new UnsupportedOperationException("Unimplemented menu item " + id);
@@ -215,17 +228,5 @@ public class MainActivity extends AppCompatActivity
             alarmStatus.setText(R.string.alarm_status_off);
             countdownDisplayContainer.setVisibility(View.GONE);
         }
-    }
-
-    private void beginTracking() {
-        ReminderHelper.beginTracking(this, true);
-        updateTrackingStatus(true);
-
-    }
-
-    private void endTracking() {
-        ReminderHelper.endTracking(this, true);
-        updateTrackingStatus(false);
-
     }
 }

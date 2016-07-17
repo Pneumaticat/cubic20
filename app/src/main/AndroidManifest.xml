@@ -45,16 +45,22 @@
         <receiver
             android:name=".NotificationBroadcastReceiver"
             android:exported="false">
-            <intent-filter android:priority="2">
-                <action android:name="space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER" />
+            <intent-filter>
+                <action android:name="space.potatofrom.cubic20.START_REMINDERS" />
                 <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".ReminderHelper$ReminderBroadcastReceiver"
             android:exported="false">
-            <intent-filter>
+            <!-- Priority 2 to go before MainActivity's UI update, which relies on
+                 the state of the reminders having been updated beforehand -->
+            <intent-filter android:priority="2">
+                <action android:name="space.potatofrom.cubic20.START_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER" />
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
             </intent-filter>
         </receiver>

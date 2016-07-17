@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.widget.Toast;
 
@@ -19,7 +20,6 @@ import android.widget.Toast;
  */
 public class ReminderHelper {
     private static final int EYE_TIMER_CODE = 1;
-    private static final int ONGOING_NOTIFICATION_ID = 1;
 
     private ReminderHelper() { }
 
@@ -34,6 +34,15 @@ public class ReminderHelper {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
+                case "space.potatofrom.cubic20.START_REMINDERS":
+                    beginTracking(context, true);
+                    break;
+                case "space.potatofrom.cubic20.STOP_REMINDERS":
+                    endTracking(context, true);
+                    break;
+                case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
+                    postponeNextReminder(context, true);
+                    break;
                 case "space.potatofrom.cubic20.HIT_REMINDER":
                     // Set next alarm
                     createAlarm(context);
@@ -137,7 +146,7 @@ public class ReminderHelper {
         }
     }
 
-    public static void beginTracking(Context context, boolean displayUi) {
+    private static void beginTracking(Context context, boolean displayUi) {
         if (currentlyTracking(context))
             throw new IllegalStateException(
                     "Attempted to enable tracking when tracking is already enabled.");
@@ -154,15 +163,6 @@ public class ReminderHelper {
                             getReminderInterval(context),
                             getReminderInterval(context)),
                     Toast.LENGTH_SHORT).show();
-
-            // Create persistent notification
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-            if (prefs.getBoolean(
-                    context.getString(R.string.pref_key_show_persistent_notification), false)) {
-                NotificationManager notMan = (NotificationManager)
-                        context.getSystemService(Context.NOTIFICATION_SERVICE);
-                notMan.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
-            }
         }
     }
 
@@ -190,9 +190,13 @@ public class ReminderHelper {
     }
 
     private static void createAlarm(Context context) {
+        createAlarm(context, getReminderIntervalMillis(context));
+    }
+
+    private static void createAlarm(Context context, long timeInFutureMillis) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
-        long runAt = SystemClock.elapsedRealtime() + getReminderIntervalMillis(context);
+        long runAt = SystemClock.elapsedRealtime() + timeInFutureMillis;
         PendingIntent pendingBroadcast = PendingIntent.getBroadcast(
                 context,
                 EYE_TIMER_CODE,
@@ -226,19 +230,27 @@ public class ReminderHelper {
      * Update the underlying alarm's time to be [reminder-interval] in the future.
      */
     private static void updateAlarm(Context context) {
+        updateAlarm(context, getReminderIntervalMillis(context));
+    }
+
+    private static void updateAlarm(Context context, long timeInFutureMillis) {
         if (!isAlarmSet(context)) {
             throw new IllegalStateException(
                     "Attempted to postpone alarm when alarm isn't set.");
         } else {
             // Alarm is set
             removeAlarm(context);
-            createAlarm(context);
+            createAlarm(context, timeInFutureMillis);
         }
     }
 
-    public static void updateNextReminderTime(Context context, boolean displayUi) {
-        updateAlarm(context);
-        updateNextAlarmTimePref(context);
+    public static void postponeNextReminder(Context context, boolean displayUi) {
+        updateAlarm(
+                context,
+                getSystemTimeAtNextAlarm(context) + getReminderIntervalMillis(context));
+        setNextAlarmTimePref(
+                context,
+                getSystemTimeAtNextAlarm(context) + getReminderIntervalMillis(context));
 
         if (displayUi) {
             long millisUntilAlarm = ReminderHelper.getTimeUntilAlarmMillis(context);
@@ -255,7 +267,7 @@ public class ReminderHelper {
         }
     }
 
-    public static void endTracking(Context context, boolean displayUi) {
+    private static void endTracking(Context context, boolean displayUi) {
         if (!currentlyTracking(context))
             throw new IllegalStateException(
                     "Attempted to disable tracking when tracking is already inactive.");
@@ -272,62 +284,11 @@ public class ReminderHelper {
         }
     }
 
-    private static Notification getOngoingNotification(Context context) {
-        return new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_brightness_medium_black_24dp)
-                .setContentTitle(context.getString(R.string.notification_title))
-                .setContentText(
-                        context.getResources().getQuantityString(
-                                R.plurals.notification_text,
-                                getReminderInterval(context),
-                                getReminderInterval(context)))
-                .setOngoing(true)
-                .setContentIntent(PendingIntent.getActivity(
-                        context,
-                        0,
-                        new Intent(context, MainActivity.class),
-                        PendingIntent.FLAG_UPDATE_CURRENT))
-                .addAction(new NotificationCompat.Action.Builder(
-                        R.drawable.ic_update_black_24dp,
-                        context.getResources().getQuantityString(
-                                R.plurals.notification_postpone,
-                                getReminderInterval(context),
-                                getReminderInterval(context)),
-                        PendingIntent.getBroadcast(
-                                context,
-                                0,
-                                new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
-                                        .putExtra(
-                                                OrderedBroadcastForwarder.ACTION_NAME,
-                                                "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER"),
-                                PendingIntent.FLAG_UPDATE_CURRENT)).build())
-                .addAction(new NotificationCompat.Action.Builder(
-                        R.drawable.ic_alarm_off_black_24dp,
-                        context.getString(R.string.notification_stop),
-                        PendingIntent.getBroadcast(
-                                context,
-                                // Different request code to differentiate
-                                // from postpone intent above
-                                // see: https://developer.android.com/reference/android/app/PendingIntent.html
-                                1,
-                                new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
-                                        .putExtra(
-                                                OrderedBroadcastForwarder.ACTION_NAME,
-                                                "space.potatofrom.cubic20.STOP_REMINDERS")
-                                        .putExtra(
-                                                NotificationBroadcastReceiver.EXTRA_NOTIFICATION_ID,
-                                                ONGOING_NOTIFICATION_ID),
-                                PendingIntent.FLAG_UPDATE_CURRENT)).build())
-                .addAction(new NotificationCompat.Action.Builder(
-                        R.drawable.ic_settings_black_24dp,
-                        context.getString(R.string.notification_options),
-                        PendingIntent.getActivity(
-                                context,
-                                0,
-                                new Intent(context, SettingsActivity.class),
-                                PendingIntent.FLAG_UPDATE_CURRENT)).build())
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .build();
+    public static void sendStartRemindersBroadcast(Context context) {
+        context.sendOrderedBroadcast(new Intent("space.potatofrom.cubic20.START_REMINDERS"), null);
+    }
+
+    public static void sendStopRemindersBroadcast(Context context) {
+        context.sendOrderedBroadcast(new Intent("space.potatofrom.cubic20.STOP_REMINDERS"), null);
     }
 }
