@@ -8,9 +8,9 @@ also easily Google it if you'd prefer.)
 
 ## What does "cubic20" mean? ##
 
-20 minutes: the (default) interval between eye-rest reminders
-20 seconds: the (default) length of time to rest eyes
-20 feet: distance of an object to look at to rest eyes
+* 20 minutes: the (default) interval between eye-rest reminders
+* 20 seconds: the (default) length of time to rest eyes
+* 20 feet: distance of an object to look at to rest eyes
 
 20-20-20. 20^3. cubic20!
 
