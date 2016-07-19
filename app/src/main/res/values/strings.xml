@@ -50,24 +50,17 @@
     <string name="stop_reminders_btn">Stop Reminders</string>
 
     <string name="title_activity_settings">Settings</string>
+
     <!-- Strings related to Settings -->
-
-    <!-- ↓ Used internally -->
-    <string name="pref_key_next_alarm_time">next_alarm</string>
-
-    <string name="pref_key_reminder_interval_min">reminder_interval</string>
     <string name="pref_summary_reminder_interval_min">How often, in minutes, to be reminded to take care of your eyes</string>
     <string name="pref_title_reminder_interval_min">Reminder interval</string>
 
-    <string name="pref_key_reminder_length_sec">reminder_length</string>
     <string name="pref_summary_reminder_length_sec">How long, in seconds, to be prompted to look away</string>
     <string name="pref_title_reminder_length_sec">Reminder length</string>
 
-    <string name="pref_key_start_on_boot">start_on_boot</string>
     <string name="pref_summary_start_on_boot">Start eye care reminders on device startup</string>
     <string name="pref_title_start_on_boot">Start on boot</string>
 
-    <string name="pref_key_show_persistent_notification">show_persistent_notification</string>
     <string name="pref_summary_show_persistent_notification">Show a persistent notification in the notification area when tracking is active</string>
     <string name="pref_title_show_persistent_notification">Show persistent notification</string>
 
