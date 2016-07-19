@@ -114,6 +114,13 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+
+        close(); // Destroy the activity
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
