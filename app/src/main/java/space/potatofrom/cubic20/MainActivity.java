@@ -77,11 +77,9 @@ public class MainActivity extends AppCompatActivity
             switch (action) {
                 case "space.potatofrom.cubic20.START_REMINDERS":
                 case "space.potatofrom.cubic20.HIT_REMINDER":
-                    updateTrackingStatus(true);
-                    break;
-                case "space.potatofrom.cubic20.STOP_REMINDERS":
                 case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
-                    updateTrackingStatus(false);
+                case "space.potatofrom.cubic20.STOP_REMINDERS":
+                    updateTrackingStatus(ReminderHelper.areRemindersActive(context));
                     break;
                 default:
                     throw new UnsupportedOperationException(
