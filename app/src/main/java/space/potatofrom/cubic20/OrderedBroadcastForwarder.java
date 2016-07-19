@@ -31,7 +31,7 @@ public class OrderedBroadcastForwarder extends BroadcastReceiver {
     // This isn't that big of a deal (mainly because rebooting will easily
     // wipe the rogue alarm), but it's weird and sort of difficult to debug.
     // Just don't do it.
-    public static final int REQUEST_CODE_START_REMINDERS = 0;
+    //public static final int REQUEST_CODE_START_REMINDERS = 0; // Unused (for now...)
     public static final int REQUEST_CODE_STOP_REMINDERS = 1;
     public static final int REQUEST_CODE_POSTPONE_NEXT_REMINDER = 2;
     public static final int REQUEST_CODE_HIT_REMINDER = 3;
