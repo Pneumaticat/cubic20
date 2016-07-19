@@ -6,6 +6,12 @@
     <string name="pref_key_start_on_boot">start_on_boot</string>
     <string name="pref_key_show_persistent_notification">show_persistent_notification</string>
 
+    <!--
+        Note: if you're planning on changing the values of any of these,
+        remember to _manually_ update the corresponding values in
+        AndroidManifest.xml, as using strings for intents is not allowed
+        there.
+    -->
     <string name="intent_fw_as_ordered_broadcast">space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST</string>
     <string name="intent_start_reminders">space.potatofrom.cubic20.START_REMINDERS</string>
     <string name="intent_stop_reminders">space.potatofrom.cubic20.STOP_REMINDERS</string>
