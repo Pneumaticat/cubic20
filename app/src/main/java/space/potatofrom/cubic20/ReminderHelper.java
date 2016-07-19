@@ -55,7 +55,7 @@ public class ReminderHelper {
                 OrderedBroadcastForwarder.REQUEST_CODE_HIT_REMINDER,
                 new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
                         .putExtra(
-                                OrderedBroadcastForwarder.ACTION_NAME,
+                                OrderedBroadcastForwarder.EXTRA_ACTION,
                                 "space.potatofrom.cubic20.HIT_REMINDER"),
                 flags);
     }

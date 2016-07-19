@@ -8,7 +8,8 @@ import android.content.Intent;
  * Created by kevin on 7/13/16.
  */
 public class OrderedBroadcastForwarder extends BroadcastReceiver {
-    public static final String ACTION_NAME = "action";
+    public static final String EXTRA_ACTION =
+            "space.potatofrom.cubic20.OrderedBroadcastForwarder.ACTION";
 
     // Unique request codes for each possible forwarded intent, to prevent
     // strange behavior as mentioned in
@@ -39,9 +40,9 @@ public class OrderedBroadcastForwarder extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Intent forwardIntent = new Intent(intent.getStringExtra(ACTION_NAME));
+        Intent forwardIntent = new Intent(intent.getStringExtra(EXTRA_ACTION));
         forwardIntent.putExtras(intent);
-        forwardIntent.removeExtra(ACTION_NAME);
+        forwardIntent.removeExtra(EXTRA_ACTION);
 
         context.sendOrderedBroadcast(forwardIntent, null);
     }
