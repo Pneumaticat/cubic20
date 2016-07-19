@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity
             String action = intent.getAction();
             switch (action) {
                 case "space.potatofrom.cubic20.START_REMINDERS":
+                case "space.potatofrom.cubic20.STOP_REMINDERS":
                 case "space.potatofrom.cubic20.HIT_REMINDER":
                 case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
-                case "space.potatofrom.cubic20.STOP_REMINDERS":
                     updateReminderUiStatus(ReminderHelper.areRemindersActive(context));
                     break;
                 default:
@@ -123,6 +123,7 @@ public class MainActivity extends AppCompatActivity
         filter.setPriority(1); // Less than 2, which is the priority of ReminderHelper's, to run after it
         filter.addAction("space.potatofrom.cubic20.START_REMINDERS");
         filter.addAction("space.potatofrom.cubic20.STOP_REMINDERS");
+        filter.addAction("space.potatofrom.cubic20.HIT_REMINDER");
         filter.addAction("space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER");
         registerReceiver(updateUiBroadcastReceiver, filter);
 
