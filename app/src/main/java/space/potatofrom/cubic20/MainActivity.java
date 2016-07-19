@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity
             String action = intent.getAction();
             switch (action) {
                 case "space.potatofrom.cubic20.START_REMINDERS":
+                case "space.potatofrom.cubic20.HIT_REMINDER":
                     updateTrackingStatus(true);
                     break;
                 case "space.potatofrom.cubic20.STOP_REMINDERS":
