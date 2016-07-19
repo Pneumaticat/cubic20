@@ -74,16 +74,15 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action) {
-                case "space.potatofrom.cubic20.START_REMINDERS":
-                case "space.potatofrom.cubic20.STOP_REMINDERS":
-                case "space.potatofrom.cubic20.HIT_REMINDER":
-                case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
-                    updateReminderUiStatus(ReminderHelper.areRemindersActive(context));
-                    break;
-                default:
-                    throw new UnsupportedOperationException(
-                            "The update ui broadcast receiver does not support action " + action);
+
+            if (    action.equals(getString(R.string.intent_start_reminders)) ||
+                    action.equals(getString(R.string.intent_stop_reminders)) ||
+                    action.equals(getString(R.string.intent_postpone_next_reminder)) ||
+                    action.equals(getString(R.string.intent_hit_reminder))) {
+                updateReminderUiStatus(ReminderHelper.areRemindersActive(context));
+            } else {
+                throw new UnsupportedOperationException(
+                        "The update ui broadcast receiver does not support action " + action);
             }
         }
     };
@@ -121,10 +120,10 @@ public class MainActivity extends AppCompatActivity
 
         IntentFilter filter = new IntentFilter();
         filter.setPriority(1); // Less than 2, which is the priority of ReminderHelper's, to run after it
-        filter.addAction("space.potatofrom.cubic20.START_REMINDERS");
-        filter.addAction("space.potatofrom.cubic20.STOP_REMINDERS");
-        filter.addAction("space.potatofrom.cubic20.HIT_REMINDER");
-        filter.addAction("space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER");
+        filter.addAction(getString(R.string.intent_start_reminders));
+        filter.addAction(getString(R.string.intent_stop_reminders));
+        filter.addAction(getString(R.string.intent_postpone_next_reminder));
+        filter.addAction(getString(R.string.intent_hit_reminder));
         registerReceiver(updateUiBroadcastReceiver, filter);
 
         updateReminderUiStatus(ReminderHelper.areRemindersActive(this));

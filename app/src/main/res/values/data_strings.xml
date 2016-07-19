@@ -5,4 +5,10 @@
     <string name="pref_key_reminder_length_sec">reminder_length</string>
     <string name="pref_key_start_on_boot">start_on_boot</string>
     <string name="pref_key_show_persistent_notification">show_persistent_notification</string>
+
+    <string name="intent_fw_as_ordered_broadcast">space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST</string>
+    <string name="intent_start_reminders">space.potatofrom.cubic20.START_REMINDERS</string>
+    <string name="intent_stop_reminders">space.potatofrom.cubic20.STOP_REMINDERS</string>
+    <string name="intent_postpone_next_reminder">space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER</string>
+    <string name="intent_hit_reminder">space.potatofrom.cubic20.HIT_REMINDER</string>
 </resources>

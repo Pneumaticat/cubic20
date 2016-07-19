@@ -76,37 +76,33 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         String action = intent.getAction();
-        switch (action) {
-            case Intent.ACTION_BOOT_COMPLETED:
-                if (prefs.getBoolean(
-                        context.getString(R.string.pref_key_start_on_boot),
-                        false)) {
-                    notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
-                }
-                break;
-            case "space.potatofrom.cubic20.START_REMINDERS":
-                // Only create ongoing notification if allowed by preferences
-                if (prefs.getBoolean(
-                        context.getString(R.string.pref_key_show_persistent_notification),
-                        false)) {
-                    notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
-                }
-                break;
-            case "space.potatofrom.cubic20.STOP_REMINDERS":
-                // Cancel ongoing notification
-                notifs.cancel(ONGOING_NOTIFICATION_ID);
-                break;
-            case "space.potatofrom.cubic20.HIT_REMINDER":
-                // Renotify notification, because a new alarm has been created
-                // with a potentially new reminder interval, etc.
-                if (prefs.getBoolean(
-                        context.getString(R.string.pref_key_show_persistent_notification),
-                        false)) {
-                    notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
-                }
-                break;
-            default:
-                throw new UnsupportedOperationException("Unimplemented action " + action);
+
+        if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
+            if (prefs.getBoolean(
+                    context.getString(R.string.pref_key_start_on_boot),
+                    false)) {
+                notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
+            }
+        } else if (action.equals(context.getString(R.string.intent_start_reminders))) {
+            // Only create ongoing notification if allowed by preferences
+            if (prefs.getBoolean(
+                    context.getString(R.string.pref_key_show_persistent_notification),
+                    false)) {
+                notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
+            }
+        } else if (action.equals(context.getString(R.string.intent_stop_reminders))) {
+            // Cancel ongoing notification
+            notifs.cancel(ONGOING_NOTIFICATION_ID);
+        } else if (action.equals(context.getString(R.string.intent_hit_reminder))) {
+            // Renotify notification, because a new alarm has been created
+            // with a potentially new reminder interval, etc.
+            if (prefs.getBoolean(
+                    context.getString(R.string.pref_key_show_persistent_notification),
+                    false)) {
+                notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
+            }
+        } else {
+            throw new UnsupportedOperationException("Unimplemented action " + action);
         }
     }
 }

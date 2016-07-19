@@ -28,14 +28,12 @@ public class ReminderActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action) {
-                case "space.potatofrom.cubic20.HIT_REMINDER":
-                    // Start ReminderActivity
-                    Intent reminderIntent = new Intent(context, ReminderActivity.class);
-                    reminderIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(reminderIntent);
-                    break;
-                default:
+            if (action.equals(context.getString(R.string.intent_hit_reminder))) {
+                // Start ReminderActivity
+                Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                reminderIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(reminderIntent);
+            } else {
                     throw new UnsupportedOperationException(
                             "This broadcast receiver does not implement action " + action);
             }

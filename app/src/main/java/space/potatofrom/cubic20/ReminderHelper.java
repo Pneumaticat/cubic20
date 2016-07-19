@@ -27,24 +27,19 @@ public class ReminderHelper {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action) {
-                case "space.potatofrom.cubic20.START_REMINDERS":
-                    startReminders(context, true);
-                    break;
-                case "space.potatofrom.cubic20.STOP_REMINDERS":
-                    stopReminders(context, true);
-                    break;
-                case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
-                    postponeNextReminder(context, true);
-                    break;
-                case "space.potatofrom.cubic20.HIT_REMINDER":
-                    // Set next alarm
-                    createAlarm(context);
-                    updateNextAlarmTimePref(context);
-                    break;
-                default:
-                    throw new UnsupportedOperationException(
-                            "This broadcast receiver does not implement action " + action);
+
+            if (action.equals(context.getString(R.string.intent_start_reminders))) {
+                startReminders(context, true);
+            } else if (action.equals(context.getString(R.string.intent_stop_reminders))) {
+                stopReminders(context, true);
+            } else if (action.equals(context.getString(R.string.intent_postpone_next_reminder))) {
+                postponeNextReminder(context, true);
+            } else if (action.equals(context.getString(R.string.intent_hit_reminder))) {
+                createAlarm(context);
+                updateNextAlarmTimePref(context);
+            } else {
+                throw new UnsupportedOperationException(
+                        "This broadcast receiver does not implement action " + action);
             }
         }
     }
@@ -53,10 +48,10 @@ public class ReminderHelper {
         return PendingIntent.getBroadcast(
                 context,
                 OrderedBroadcastForwarder.REQUEST_CODE_HIT_REMINDER,
-                new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
+                new Intent(context.getString(R.string.intent_fw_as_ordered_broadcast))
                         .putExtra(
                                 OrderedBroadcastForwarder.EXTRA_ACTION,
-                                "space.potatofrom.cubic20.HIT_REMINDER"),
+                                context.getString(R.string.intent_hit_reminder)),
                 flags);
     }
 
@@ -267,10 +262,12 @@ public class ReminderHelper {
     }
 
     public static void sendStartRemindersBroadcast(Context context) {
-        context.sendOrderedBroadcast(new Intent("space.potatofrom.cubic20.START_REMINDERS"), null);
+        context.sendOrderedBroadcast(
+                new Intent(context.getString(R.string.intent_start_reminders)), null);
     }
 
     public static void sendStopRemindersBroadcast(Context context) {
-        context.sendOrderedBroadcast(new Intent("space.potatofrom.cubic20.STOP_REMINDERS"), null);
+        context.sendOrderedBroadcast(
+                new Intent(context.getString(R.string.intent_stop_reminders)), null);
     }
 }
