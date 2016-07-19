@@ -249,7 +249,7 @@ public class ReminderHelper {
             long seconds = (millisUntilAlarm / 1000) % 60;
             long minutes = (millisUntilAlarm / (1000 * 60));
             String nextAlarmTime = context.getString(
-                    R.string.time_until_alarm_format,
+                    R.string.time_until_next_reminder_format,
                     minutes,
                     seconds);
             Toast.makeText(

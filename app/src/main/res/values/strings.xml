@@ -2,14 +2,14 @@
     <string name="app_name">cubic20</string>
     <string name="app_email">batchfiles99@gmail.com</string>
 
-    <string name="welcome_message">Welcome! Open the menu to turn eye care tracking on or off.</string>
+    <string name="welcome_message">Welcome! Open the menu to turn eye care reminders on or off.</string>
 
-    <string name="alarm_status_desc">Tracking is currently:</string>
-    <string name="alarm_status_error">ERROR! Could not determine whether tracking is on or off??</string>
-    <string name="alarm_status_on">ON</string>
-    <string name="alarm_status_off">OFF</string>
+    <string name="reminder_status_desc">Reminders are currently:</string>
+    <string name="reminder_status_error">ERROR! Could not determine whether reminders are on or off??</string>
+    <string name="reminder_status_on">ON</string>
+    <string name="reminder_status_off">OFF</string>
 
-    <string name="time_until_alarm_format">%1$02dm%2$02ds</string>
+    <string name="time_until_next_reminder_format">%1$02dm%2$02ds</string>
 
     <string name="countdown_display_desc">Time until next reminder:</string>
     <string name="countdown_display_complete">[Right now.]</string>

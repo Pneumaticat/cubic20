@@ -23,11 +23,11 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private MenuItem beginTrackingMenuItem;
-    private MenuItem endTrackingMenuItem;
-    private TextView alarmStatus;
+    private MenuItem startRemindersMenuItem;
+    private MenuItem stopRemindersMenuItem;
+    private TextView reminderStatus;
     private LinearLayout countdownDisplayContainer;
-    private TextView countdownDisplay;
+    private TextView countdownDisplayText;
     private Timer counterDown;
 
     private class CountdownTimerTask extends TimerTask {
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         public CountdownTimerTask(long timerInterval) {
             TIMER_INTERVAL = timerInterval;
             TIME_UNTIL_ALARM = ReminderHelper.getTimeUntilAlarmPrefMillis(getBaseContext());
-            COUNTDOWN_FORMAT = getString(R.string.time_until_alarm_format);
+            COUNTDOWN_FORMAT = getString(R.string.time_until_next_reminder_format);
         }
 
         @Override
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        countdownDisplay.setText(R.string.countdown_display_complete);
+                        countdownDisplayText.setText(R.string.countdown_display_complete);
                     }
                 });
                 this.cancel();
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        countdownDisplay.setText(
+                        countdownDisplayText.setText(
                                 String.format(COUNTDOWN_FORMAT, minutes, seconds));
                     }
                 });
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
                 case "space.potatofrom.cubic20.HIT_REMINDER":
                 case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
                 case "space.potatofrom.cubic20.STOP_REMINDERS":
-                    updateTrackingStatus(ReminderHelper.areRemindersActive(context));
+                    updateReminderUiStatus(ReminderHelper.areRemindersActive(context));
                     break;
                 default:
                     throw new UnsupportedOperationException(
@@ -108,11 +108,11 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Initialize variables that correspond to view elements
-        beginTrackingMenuItem = navigationView.getMenu().findItem(R.id.start_reminders);
-        endTrackingMenuItem = navigationView.getMenu().findItem(R.id.stop_reminders);
-        alarmStatus = (TextView) findViewById(R.id.alarm_status);
+        startRemindersMenuItem = navigationView.getMenu().findItem(R.id.start_reminders);
+        stopRemindersMenuItem = navigationView.getMenu().findItem(R.id.stop_reminders);
+        reminderStatus = (TextView) findViewById(R.id.reminder_status);
         countdownDisplayContainer = (LinearLayout) findViewById(R.id.countdown_display_container);
-        countdownDisplay = (TextView) findViewById(R.id.countdown_display_text);
+        countdownDisplayText = (TextView) findViewById(R.id.countdown_display_text);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         filter.addAction("space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER");
         registerReceiver(updateUiBroadcastReceiver, filter);
 
-        updateTrackingStatus(ReminderHelper.areRemindersActive(this));
+        updateReminderUiStatus(ReminderHelper.areRemindersActive(this));
     }
 
     @Override
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity
      * Update UI tracking, but without actually creating the alarm
      * @param on Either true or false, depending on the status.
      */
-    private void updateTrackingStatus(boolean on) {
+    private void updateReminderUiStatus(boolean on) {
         // Clear counter; either gets restored if ON or not if OFF.
         if (counterDown != null) {
             counterDown.cancel();
@@ -209,9 +209,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (on) {
-            beginTrackingMenuItem.setEnabled(false);
-            endTrackingMenuItem.setEnabled(true);
-            alarmStatus.setText(R.string.alarm_status_on);
+            startRemindersMenuItem.setEnabled(false);
+            stopRemindersMenuItem.setEnabled(true);
+            reminderStatus.setText(R.string.reminder_status_on);
             countdownDisplayContainer.setVisibility(View.VISIBLE);
 
             final long TIMER_INTERVAL = 1000;
@@ -222,9 +222,9 @@ public class MainActivity extends AppCompatActivity
                     0,
                     TIMER_INTERVAL);
         } else {
-            beginTrackingMenuItem.setEnabled(true);
-            endTrackingMenuItem.setEnabled(false);
-            alarmStatus.setText(R.string.alarm_status_off);
+            startRemindersMenuItem.setEnabled(true);
+            stopRemindersMenuItem.setEnabled(false);
+            reminderStatus.setText(R.string.reminder_status_off);
             countdownDisplayContainer.setVisibility(View.GONE);
         }
     }

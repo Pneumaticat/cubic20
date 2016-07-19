@@ -26,17 +26,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/alarm_status_desc"
+        android:text="@string/reminder_status_desc"
         android:id="@+id/textView4"
-        android:layout_above="@+id/alarm_status"
+        android:layout_above="@+id/reminder_status"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/alarm_status_error"
-        android:id="@+id/alarm_status"
+        android:text="@string/reminder_status_error"
+        android:id="@+id/reminder_status"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -45,7 +45,7 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/alarm_status"
+        android:layout_below="@+id/reminder_status"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp">
 
