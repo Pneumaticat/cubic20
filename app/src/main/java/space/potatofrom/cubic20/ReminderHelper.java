@@ -34,7 +34,7 @@ public class ReminderHelper {
                     startReminders(context, true);
                     break;
                 case "space.potatofrom.cubic20.STOP_REMINDERS":
-                    endTracking(context, true);
+                    stopReminders(context, true);
                     break;
                 case "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER":
                     postponeNextReminder(context, true);
@@ -256,7 +256,7 @@ public class ReminderHelper {
         }
     }
 
-    private static void endTracking(Context context, boolean displayUi) {
+    private static void stopReminders(Context context, boolean displayUi) {
         if (!areRemindersActive(context))
             throw new IllegalStateException(
                     "Attempted to disable tracking when tracking is already inactive.");
