@@ -30,7 +30,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                         context,
                         0,
                         new Intent(context, MainActivity.class),
-                        PendingIntent.FLAG_UPDATE_CURRENT))
+                        0))
                 .addAction(new NotificationCompat.Action.Builder(
                         R.drawable.ic_update_black_24dp,
                         context.getResources().getQuantityString(
@@ -39,26 +39,23 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                                 ReminderHelper.getReminderInterval(context)),
                         PendingIntent.getBroadcast(
                                 context,
-                                0,
+                                OrderedBroadcastForwarder.REQUEST_CODE_POSTPONE_NEXT_REMINDER,
                                 new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
                                         .putExtra(
                                                 OrderedBroadcastForwarder.ACTION_NAME,
                                                 "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER"),
-                                PendingIntent.FLAG_UPDATE_CURRENT)).build())
+                                0)).build())
                 .addAction(new NotificationCompat.Action.Builder(
                         R.drawable.ic_alarm_off_black_24dp,
                         context.getString(R.string.notification_stop),
                         PendingIntent.getBroadcast(
                                 context,
-                                // Different request code to differentiate
-                                // from postpone intent above
-                                // see: https://developer.android.com/reference/android/app/PendingIntent.html
-                                1,
+                                OrderedBroadcastForwarder.REQUEST_CODE_STOP_REMINDERS,
                                 new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
                                         .putExtra(
                                                 OrderedBroadcastForwarder.ACTION_NAME,
                                                 "space.potatofrom.cubic20.STOP_REMINDERS"),
-                                PendingIntent.FLAG_UPDATE_CURRENT)).build())
+                                0)).build())
                 .addAction(new NotificationCompat.Action.Builder(
                         R.drawable.ic_settings_black_24dp,
                         context.getString(R.string.notification_options),
@@ -66,7 +63,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                                 context,
                                 0,
                                 new Intent(context, SettingsActivity.class),
-                                PendingIntent.FLAG_UPDATE_CURRENT)).build())
+                                0)).build())
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .build();

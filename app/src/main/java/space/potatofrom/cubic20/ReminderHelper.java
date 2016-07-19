@@ -15,8 +15,6 @@ import android.widget.Toast;
  * Created by kevin on 7/11/16.
  */
 public class ReminderHelper {
-    private static final int EYE_TIMER_CODE = 1;
-
     private ReminderHelper() { }
 
     /**
@@ -51,11 +49,15 @@ public class ReminderHelper {
         }
     }
 
-    private static Intent getReminderBroadcastIntent() {
-        return new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
-                .putExtra(
-                        OrderedBroadcastForwarder.ACTION_NAME,
-                        "space.potatofrom.cubic20.HIT_REMINDER");
+    private static PendingIntent getHitReminderPendingIntent(Context context, int flags) {
+        return PendingIntent.getBroadcast(
+                context,
+                OrderedBroadcastForwarder.REQUEST_CODE_HIT_REMINDER,
+                new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
+                        .putExtra(
+                                OrderedBroadcastForwarder.ACTION_NAME,
+                                "space.potatofrom.cubic20.HIT_REMINDER"),
+                flags);
     }
 
     /**
@@ -104,11 +106,7 @@ public class ReminderHelper {
     }
 
     private static boolean isAlarmSet(Context context) {
-        return PendingIntent.getBroadcast(
-                context,
-                EYE_TIMER_CODE,
-                getReminderBroadcastIntent(),
-                PendingIntent.FLAG_NO_CREATE) != null;
+        return getHitReminderPendingIntent(context, PendingIntent.FLAG_NO_CREATE) != null;
     }
 
     private static boolean isNextAlarmTimePrefSet(Context context) {
@@ -196,11 +194,7 @@ public class ReminderHelper {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         int alarmType = AlarmManager.ELAPSED_REALTIME_WAKEUP;
         long runAt = SystemClock.elapsedRealtime() + timeInFutureMillis;
-        PendingIntent pendingBroadcast = PendingIntent.getBroadcast(
-                context,
-                EYE_TIMER_CODE,
-                getReminderBroadcastIntent(),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingBroadcast = getHitReminderPendingIntent(context, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Bypass Doze & inexactness to always trigger at the specified
@@ -218,11 +212,7 @@ public class ReminderHelper {
 
     private static void removeAlarm(Context context) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(PendingIntent.getBroadcast(
-                context,
-                EYE_TIMER_CODE,
-                getReminderBroadcastIntent(),
-                PendingIntent.FLAG_NO_CREATE));
+        manager.cancel(getHitReminderPendingIntent(context, PendingIntent.FLAG_NO_CREATE));
     }
 
     private static void updateAlarm(Context context, long timeInFutureMillis) {
