@@ -51,8 +51,11 @@ public class ReminderHelper {
         }
     }
 
-    private static Intent getReminderBroadcastIntent(Context context) {
-        return new Intent("space.potatofrom.cubic20.HIT_REMINDER");
+    private static Intent getReminderBroadcastIntent() {
+        return new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
+                .putExtra(
+                        OrderedBroadcastForwarder.ACTION_NAME,
+                        "space.potatofrom.cubic20.HIT_REMINDER");
     }
 
     /**
@@ -104,7 +107,7 @@ public class ReminderHelper {
         return PendingIntent.getBroadcast(
                 context,
                 EYE_TIMER_CODE,
-                getReminderBroadcastIntent(context),
+                getReminderBroadcastIntent(),
                 PendingIntent.FLAG_NO_CREATE) != null;
     }
 
@@ -196,7 +199,7 @@ public class ReminderHelper {
         PendingIntent pendingBroadcast = PendingIntent.getBroadcast(
                 context,
                 EYE_TIMER_CODE,
-                getReminderBroadcastIntent(context),
+                getReminderBroadcastIntent(),
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -218,7 +221,7 @@ public class ReminderHelper {
         manager.cancel(PendingIntent.getBroadcast(
                 context,
                 EYE_TIMER_CODE,
-                getReminderBroadcastIntent(context),
+                getReminderBroadcastIntent(),
                 PendingIntent.FLAG_NO_CREATE));
     }
 
