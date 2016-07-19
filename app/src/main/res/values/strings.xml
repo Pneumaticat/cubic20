@@ -47,7 +47,7 @@
         <item quantity="one">For %1$d second, look at something 20+ feet away.</item>
         <item quantity="other">For %1$d seconds, look at something 20+ feet away.</item>
     </plurals>
-    <string name="stop_notifications_btn">Stop Notifications</string>
+    <string name="stop_reminders_btn">Stop Reminders</string>
 
     <string name="title_activity_settings">Settings</string>
     <!-- Strings related to Settings -->

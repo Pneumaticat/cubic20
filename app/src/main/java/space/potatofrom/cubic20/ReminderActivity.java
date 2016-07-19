@@ -120,7 +120,7 @@ public class ReminderActivity extends AppCompatActivity {
         close(); // Destroy the activity
     }
 
-    public void stopNotifications(View button) {
+    public void stopReminders(View button) {
         ReminderHelper.sendStopRemindersBroadcast(this);
         close();
     }
