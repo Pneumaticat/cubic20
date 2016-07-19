@@ -57,7 +57,7 @@ public class ReminderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reminder);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(false);
         }
 
         int reminderLength = ReminderHelper.getReminderLength(this);
@@ -118,17 +118,6 @@ public class ReminderActivity extends AppCompatActivity {
         super.onStop();
 
         close(); // Destroy the activity
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button.
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void stopNotifications(View button) {
