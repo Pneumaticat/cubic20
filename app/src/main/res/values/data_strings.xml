@@ -6,6 +6,13 @@
     <string name="pref_key_start_on_boot">start_on_boot</string>
     <string name="pref_key_show_persistent_notification">show_persistent_notification</string>
 
+    <string name="pref_key_stats_reminders_started">stats_reminders_started</string>
+    <string name="pref_key_stats_reminders_stopped">stats_reminders_stopped</string>
+    <string name="pref_key_stats_reminders_postponed">stats_reminders_postponed</string>
+    <string name="pref_key_stats_reminders_hit">stats_reminders_hit</string>
+    <string name="pref_key_stats_time_postponed_min">stats_time_postponed</string>
+    <string name="pref_key_stats_time_rested_sec">stats_time_rested</string>
+
     <!--
         Note: if you're planning on changing the values of any of these,
         remember to _manually_ update the corresponding values in

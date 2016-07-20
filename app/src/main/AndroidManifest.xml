@@ -71,6 +71,16 @@
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".StatsBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="space.potatofrom.cubic20.START_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER" />
+                <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".AboutActivity"
