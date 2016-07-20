@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity
         if (on) {
             startRemindersMenuItem.setEnabled(false);
             stopRemindersMenuItem.setEnabled(true);
-            reminderStatus.setText(R.string.reminder_status_on);
+            reminderStatus.setText(R.string.main_reminder_status_on);
             countdownDisplayContainer.setVisibility(View.VISIBLE);
 
             final long TIMER_INTERVAL = 1000;
@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             startRemindersMenuItem.setEnabled(true);
             stopRemindersMenuItem.setEnabled(false);
-            reminderStatus.setText(R.string.reminder_status_off);
+            reminderStatus.setText(R.string.main_reminder_status_off);
             countdownDisplayContainer.setVisibility(View.GONE);
         }
     }

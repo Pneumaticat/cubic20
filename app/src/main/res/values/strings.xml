@@ -2,12 +2,12 @@
     <string name="app_name">cubic20</string>
     <string name="app_email">batchfiles99@gmail.com</string>
 
-    <string name="welcome_message">Welcome! Open the menu to turn eye care reminders on or off.</string>
+    <string name="main_welcome_message">Welcome! Open the menu to turn eye care reminders on or off.</string>
 
-    <string name="reminder_status_desc">Reminders are currently:</string>
-    <string name="reminder_status_error">ERROR! Could not determine whether reminders are on or off??</string>
-    <string name="reminder_status_on">ON</string>
-    <string name="reminder_status_off">OFF</string>
+    <string name="main_reminder_status_desc">Reminders are currently:</string>
+    <string name="main_reminder_status_error">ERROR! Could not determine whether reminders are on or off??</string>
+    <string name="main_reminder_status_on">ON</string>
+    <string name="main_reminder_status_off">OFF</string>
 
     <string name="time_until_next_reminder_format">%1$02dm%2$02ds</string>
 
@@ -42,12 +42,12 @@
     <string name="toast_removed_alarm">Reminders have now stopped.</string>
     <string name="toast_updated_alarm">Next reminder has been updated to be %1$s in the future.</string>
 
-    <string name="title_activity_notification">Time to Look Away!</string>
-    <plurals name="look_away_desc">
+    <string name="title_activity_reminder">Time to Look Away!</string>
+    <plurals name="reminder_look_away_desc">
         <item quantity="one">For %1$d second, look at something 20+ feet away.</item>
         <item quantity="other">For %1$d seconds, look at something 20+ feet away.</item>
     </plurals>
-    <string name="stop_reminders_btn">Stop Reminders</string>
+    <string name="reminder_stop_reminders_btn">Stop Reminders</string>
 
     <string name="title_activity_settings">Settings</string>
 

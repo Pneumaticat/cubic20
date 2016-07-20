@@ -8,8 +8,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -71,7 +69,7 @@ public class ReminderActivity extends AppCompatActivity {
         // Set initial countdown value to reminder length specified in settings
         counterDown.setText(String.valueOf(reminderLength));
         countdownDesc.setText(getResources().getQuantityString(
-                R.plurals.look_away_desc, reminderLength, reminderLength));
+                R.plurals.reminder_look_away_desc, reminderLength, reminderLength));
 
         vibrator.vibrate(500);
 

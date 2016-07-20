@@ -26,7 +26,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stop_reminders_btn"
+        android:text="@string/reminder_stop_reminders_btn"
         android:id="@+id/stop_reminders_btn"
         android:onClick="stopReminders"
         android:layout_alignParentBottom="true"
