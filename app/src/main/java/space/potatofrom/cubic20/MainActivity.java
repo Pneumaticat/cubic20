@@ -167,6 +167,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
+            case R.id.action_stats:
+                startActivity(new Intent(this, StatsActivity.class));
+                break;
             default:
                 throw new UnsupportedOperationException("Unimplemented menu item " + id);
         }

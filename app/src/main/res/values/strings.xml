@@ -32,6 +32,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_about">About</string>
+    <string name="action_stats">Statistics</string>
 
     <string name="main_drawer_start_reminders">Start reminders</string>
     <string name="main_drawer_stop_reminders">Stop reminders</string>
@@ -54,13 +55,10 @@
     <!-- Strings related to Settings -->
     <string name="pref_summary_reminder_interval_min">How often, in minutes, to be reminded to take care of your eyes</string>
     <string name="pref_title_reminder_interval_min">Reminder interval</string>
-
     <string name="pref_summary_reminder_length_sec">How long, in seconds, to be prompted to look away</string>
     <string name="pref_title_reminder_length_sec">Reminder length</string>
-
     <string name="pref_summary_start_on_boot">Start eye care reminders on device startup</string>
     <string name="pref_title_start_on_boot">Start on boot</string>
-
     <string name="pref_summary_show_persistent_notification">Show a persistent notification in the notification area when tracking is active</string>
     <string name="pref_title_show_persistent_notification">Show persistent notification</string>
 
@@ -78,4 +76,14 @@
         General Public License for more details. (You can read it at
         <a href="https://gnu.org/licenses/">the GNU website</a>.)</string>
     <string name="about_source_code">You can find the source code of cubic20 on <a href="https://github.com/Pneumaticat/cubic20">GitHub</a>.</string>
+
+    <string name="title_activity_stats">Statistics</string>
+    <string name="stats_action_refresh">Refresh Stats</string>
+    <string name="stats_value_error">[ERROR!]</string>
+    <string name="stats_reminders_started">Reminders started</string>
+    <string name="stats_reminders_stopped">Reminders stopped</string>
+    <string name="stats_reminders_postponed">Reminders postponed</string>
+    <string name="stats_reminders_hit">Reminders hit</string>
+    <string name="stats_time_postponed">Postponed reminders for</string>
+    <string name="stats_time_rested">Rested eyes for</string>
 </resources>
