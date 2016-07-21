@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/menu_reminder_control"
+        android:checkableBehavior="none">
         <item
-            android:id="@+id/start_reminders"
+            android:id="@+id/menu_start_reminders"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/main_drawer_start_reminders" />
         <item
-            android:id="@+id/stop_reminders"
+            android:id="@+id/menu_stop_reminders"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/main_drawer_stop_reminders"
             android:enabled="false" />
     </group>
 
+    <group android:id="@+id/menu_activities">
+        <item
+            android:id="@+id/menu_stats"
+            android:icon="@drawable/ic_menu_poll"
+            android:title="@string/main_drawer_stats" />
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_menu_info"
+            android:title="@string/main_drawer_about" />
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/main_drawer_settings" />
+    </group>
 </menu>

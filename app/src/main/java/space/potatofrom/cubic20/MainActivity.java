@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -107,8 +108,8 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Initialize variables that correspond to view elements
-        startRemindersMenuItem = navigationView.getMenu().findItem(R.id.start_reminders);
-        stopRemindersMenuItem = navigationView.getMenu().findItem(R.id.stop_reminders);
+        startRemindersMenuItem = navigationView.getMenu().findItem(R.id.menu_start_reminders);
+        stopRemindersMenuItem = navigationView.getMenu().findItem(R.id.menu_stop_reminders);
         reminderStatus = (TextView) findViewById(R.id.reminder_status);
         countdownDisplayContainer = (LinearLayout) findViewById(R.id.countdown_display_container);
         countdownDisplayText = (TextView) findViewById(R.id.countdown_display_text);
@@ -161,20 +162,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                break;
-            case R.id.action_about:
-                startActivity(new Intent(this, AboutActivity.class));
-                break;
-            case R.id.action_stats:
-                startActivity(new Intent(this, StatsActivity.class));
-                break;
             default:
                 throw new UnsupportedOperationException("Unimplemented menu item " + id);
         }
 
-        return super.onOptionsItemSelected(item);
+        //return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -183,11 +175,20 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.start_reminders:
+            case R.id.menu_start_reminders:
                 ReminderHelper.sendStartRemindersBroadcast(this);
                 break;
-            case R.id.stop_reminders:
+            case R.id.menu_stop_reminders:
                 ReminderHelper.sendStopRemindersBroadcast(this);
+                break;
+            case R.id.menu_stats:
+                startActivity(new Intent(this, StatsActivity.class));
+                break;
+            case R.id.menu_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+            case R.id.menu_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
             default:
                 throw new UnsupportedOperationException("Unimplemented menu item " + id);

@@ -57,7 +57,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                                                 "space.potatofrom.cubic20.STOP_REMINDERS"),
                                 0)).build())
                 .addAction(new NotificationCompat.Action.Builder(
-                        R.drawable.ic_settings_black_24dp,
+                        R.drawable.ic_menu_settings,
                         context.getString(R.string.notification_options),
                         PendingIntent.getActivity(
                                 context,
