@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -176,9 +177,11 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.menu_start_reminders:
                 ReminderHelper.sendStartRemindersBroadcast(this);
+                disableStartStopMenuItems(true);
                 break;
             case R.id.menu_stop_reminders:
                 ReminderHelper.sendStopRemindersBroadcast(this);
+                disableStartStopMenuItems(false);
                 break;
             case R.id.menu_stats:
                 startActivity(new Intent(this, StatsActivity.class));
@@ -198,6 +201,30 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Disable both the "Start reminders" and "Stop reminders" buttons
+     *
+     * This is necessary because I've noticed that broadcasts tend to take a
+     * while to actually get processed, and the user has the ability to, say,
+     * if they pressed the start button, press the stop button before
+     * reminders have actually started, thus crashing the app.
+     *
+     * These disable statuses are later reset when the broadcast comes through
+     * by updateReminderUiStatus.
+     */
+    private void disableStartStopMenuItems(boolean turnedRemindersOn) {
+        startRemindersMenuItem.setEnabled(false);
+        stopRemindersMenuItem.setEnabled(false);
+        reminderStatus.setText(R.string.main_reminder_status_loading);
+        Toast.makeText(
+                this,
+                getString(
+                        R.string.toast_loading_reminder_status,
+                        turnedRemindersOn
+                                ? getString(R.string.main_reminder_status_on)
+                                : getString(R.string.main_reminder_status_off)),
+                Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * Update UI tracking, but without actually creating the alarm

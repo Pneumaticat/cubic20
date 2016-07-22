@@ -8,6 +8,7 @@
     <string name="main_reminder_status_error">ERROR! Could not determine whether reminders are on or off??</string>
     <string name="main_reminder_status_on">ON</string>
     <string name="main_reminder_status_off">OFF</string>
+    <string name="main_reminder_status_loading">LOADING…</string>
 
     <string name="time_until_next_reminder_format">%1$02dm%2$02ds</string>
 
@@ -40,8 +41,9 @@
         <item quantity="one">You will now be reminded every %1$d minute to rest your eyes.</item>
         <item quantity="other">You will now be reminded every %1$d minutes to rest your eyes.</item>
     </plurals>
-    <string name="toast_removed_alarm">Reminders have now stopped.</string>
-    <string name="toast_updated_alarm">Next reminder has been updated to be %1$s in the future.</string>
+    <string name="toast_stopped_reminders">Reminders have now stopped.</string>
+    <string name="toast_postponed_next_reminder">Next reminder has been updated to be %1$s in the future.</string>
+    <string name="toast_loading_reminder_status">Turning reminders %1$s…</string>
 
     <string name="title_activity_reminder">Time to Look Away!</string>
     <plurals name="reminder_look_away_desc">

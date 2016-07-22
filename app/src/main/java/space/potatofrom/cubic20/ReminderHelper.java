@@ -246,7 +246,7 @@ public class ReminderHelper {
                     seconds);
             Toast.makeText(
                     context,
-                    context.getString(R.string.toast_updated_alarm, nextAlarmTime),
+                    context.getString(R.string.toast_postponed_next_reminder, nextAlarmTime),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -263,7 +263,7 @@ public class ReminderHelper {
         if (displayUi) {
             Toast.makeText(
                     context,
-                    R.string.toast_removed_alarm,
+                    R.string.toast_stopped_reminders,
                     Toast.LENGTH_SHORT).show();
         }
     }
