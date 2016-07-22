@@ -121,9 +121,6 @@ public class ReminderActivity extends AppCompatActivity {
         close();
     }
 
-    /**
-     * Probably not good practice. Oh well.
-     */
     private void close() {
         finish();
         closed = true;
