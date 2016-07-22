@@ -13,15 +13,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class ReminderActivity extends AppCompatActivity {
-    // Used to stop countdown after finish()
+    // Used to stop countdown after activity closes
     private boolean closed = false;
 
+    /**
+     * Listen for when a reminder is hit, and start ReminderActivity
+     */
     public static class ReminderReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -51,13 +49,14 @@ public class ReminderActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_reminder);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(false);
         }
 
-        int reminderLength = ReminderHelper.getReminderLength(this);
-
+        // Prepare for countdown
+        final int reminderLength = ReminderHelper.getReminderLength(this);
         final Handler handler = new Handler();
         final TextView counterDown = (TextView) findViewById(R.id.notification_counterdown);
         final TextView countdownDesc = (TextView) findViewById(R.id.notification_countdown_desc);
@@ -111,7 +110,7 @@ public class ReminderActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
 
-        close(); // Destroy the activity
+        close();
     }
 
     public void stopReminders(View button) {

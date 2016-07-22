@@ -5,7 +5,7 @@ import android.app.Application;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
- * Created by kevin on 7/20/16.
+ * Performs startup initializations
  */
 public class MyApp extends Application {
     @Override

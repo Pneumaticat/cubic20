@@ -12,7 +12,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 /**
- * Created by kevin on 7/11/16.
+ * Helper static class to manage reminders & listen for broadcasts
  */
 public class ReminderHelper {
     private ReminderHelper() { }
@@ -85,6 +85,7 @@ public class ReminderHelper {
         final long errorValue = Long.MIN_VALUE;
         long nextAlarmTime = prefs.getLong(
                 context.getString(R.string.pref_key_next_alarm_time), errorValue);
+
         if (nextAlarmTime == errorValue) {
             throw new IllegalStateException(
                     "Attempted to get system time at next alarm when the next alarm time was not set.");
@@ -139,12 +140,12 @@ public class ReminderHelper {
     }
 
     private static void startReminders(Context context, boolean displayUi) {
-        if (areRemindersActive(context))
+        if (areRemindersActive(context)) {
             throw new IllegalStateException(
                     "Attempted to enable tracking when tracking is already enabled.");
+        }
 
         createAlarm(context);
-
         updateNextAlarmTimePref(context);
 
         if (displayUi) {
@@ -207,7 +208,13 @@ public class ReminderHelper {
 
     private static void removeAlarm(Context context) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(getHitReminderPendingIntent(context, PendingIntent.FLAG_NO_CREATE));
+        PendingIntent alarmInt = getHitReminderPendingIntent(context, PendingIntent.FLAG_NO_CREATE);
+
+        if (alarmInt == null) {
+            throw new IllegalStateException("No pending hit reminder intent/alarm found!");
+        } else {
+            manager.cancel(getHitReminderPendingIntent(context, PendingIntent.FLAG_NO_CREATE));
+        }
     }
 
     private static void updateAlarm(Context context, long timeInFutureMillis) {
@@ -245,12 +252,12 @@ public class ReminderHelper {
     }
 
     private static void stopReminders(Context context, boolean displayUi) {
-        if (!areRemindersActive(context))
+        if (!areRemindersActive(context)) {
             throw new IllegalStateException(
                     "Attempted to disable tracking when tracking is already inactive.");
+        }
 
         removeAlarm(context);
-
         removeNextAlarmTimePref(context);
 
         if (displayUi) {
