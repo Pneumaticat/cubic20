@@ -220,9 +220,9 @@ public class MainActivity extends AppCompatActivity
                 this,
                 getString(
                         R.string.toast_loading_reminder_status,
-                        turnedRemindersOn
+                        (turnedRemindersOn
                                 ? getString(R.string.main_reminder_status_on)
-                                : getString(R.string.main_reminder_status_off)),
+                                : getString(R.string.main_reminder_status_off)).toLowerCase()),
                 Toast.LENGTH_SHORT).show();
     }
 

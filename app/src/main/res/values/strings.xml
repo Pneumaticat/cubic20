@@ -5,10 +5,9 @@
     <string name="main_welcome_message">Welcome! Open the menu to turn eye care reminders on or off.</string>
 
     <string name="main_reminder_status_desc">Reminders are currently:</string>
-    <string name="main_reminder_status_error">ERROR! Could not determine whether reminders are on or off??</string>
-    <string name="main_reminder_status_on">ON</string>
-    <string name="main_reminder_status_off">OFF</string>
-    <string name="main_reminder_status_loading">LOADING…</string>
+    <string name="main_reminder_status_on">On</string>
+    <string name="main_reminder_status_off">Off</string>
+    <string name="main_reminder_status_loading">Loading…</string>
 
     <string name="time_until_next_reminder_format">%1$02dm%2$02ds</string>
 
