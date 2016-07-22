@@ -30,7 +30,9 @@ public class StatsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         remindersStartedValue = (TextView) findViewById(R.id.value_reminders_started);
         remindersStoppedValue = (TextView) findViewById(R.id.value_reminders_stopped);
