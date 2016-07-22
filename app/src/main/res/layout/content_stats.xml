@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stats_reminders_started" />
             <TextView
-                android:id="@+id/stats_value_reminders_started"
+                android:id="@+id/value_reminders_started"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stats_reminders_stopped" />
             <TextView
-                android:id="@+id/stats_value_reminders_stopped"
+                android:id="@+id/value_reminders_stopped"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stats_reminders_postponed" />
             <TextView
-                android:id="@+id/stats_value_reminders_postponed"
+                android:id="@+id/value_reminders_postponed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stats_reminders_hit" />
             <TextView
-                android:id="@+id/stats_value_reminders_hit"
+                android:id="@+id/value_reminders_hit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/stats_time_postponed" />
             <TextView
-                android:id="@+id/stats_value_time_postponed"
+                android:id="@+id/value_time_postponed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"

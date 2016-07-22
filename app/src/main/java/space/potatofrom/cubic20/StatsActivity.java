@@ -32,11 +32,11 @@ public class StatsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        remindersStartedValue = (TextView) findViewById(R.id.stats_value_reminders_started);
-        remindersStoppedValue = (TextView) findViewById(R.id.stats_value_reminders_stopped);
-        remindersPostponedValue = (TextView) findViewById(R.id.stats_value_reminders_postponed);
-        remindersHitValue = (TextView) findViewById(R.id.stats_value_reminders_hit);
-        timePostponedValue = (TextView) findViewById(R.id.stats_value_time_postponed);
+        remindersStartedValue = (TextView) findViewById(R.id.value_reminders_started);
+        remindersStoppedValue = (TextView) findViewById(R.id.value_reminders_stopped);
+        remindersPostponedValue = (TextView) findViewById(R.id.value_reminders_postponed);
+        remindersHitValue = (TextView) findViewById(R.id.value_reminders_hit);
+        timePostponedValue = (TextView) findViewById(R.id.value_time_postponed);
         timeRestedValue = (TextView) findViewById(R.id.stats_value_time_rested);
 
         refreshStatsUi();
@@ -57,7 +57,7 @@ public class StatsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.stats_action_refresh:
+            case R.id.action_refresh:
                 refreshStatsUi();
                 break;
             default:
