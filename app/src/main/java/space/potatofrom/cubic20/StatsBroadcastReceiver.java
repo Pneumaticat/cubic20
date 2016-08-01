@@ -34,7 +34,7 @@ public class StatsBroadcastReceiver extends BroadcastReceiver {
 
             prefEditor.putInt(remindersPostponedPref, prefs.getInt(remindersPostponedPref, 0) + 1);
             prefEditor.putInt(timePostponedMinPref, prefs.getInt(timePostponedMinPref, 0) +
-                            ReminderHelper.getReminderInterval(context));
+                            ReminderManager.getReminderInterval(context));
         } else if (action.equals(context.getString(R.string.intent_hit_reminder))) {
             String remindersHitPref =
                     context.getString(R.string.pref_key_stats_reminders_hit);
@@ -43,7 +43,7 @@ public class StatsBroadcastReceiver extends BroadcastReceiver {
 
             prefEditor.putInt(remindersHitPref, prefs.getInt(remindersHitPref, 0) + 1);
             prefEditor.putInt(timeRestedSecPref, prefs.getInt(timeRestedSecPref, 0) +
-                    ReminderHelper.getReminderLength(context));
+                    ReminderManager.getReminderLength(context));
         } else {
             throw new UnsupportedOperationException(
                     "This broadcast receiver does not implement action " + action);

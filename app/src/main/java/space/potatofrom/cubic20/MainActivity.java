@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
 
         public CountdownTimerTask(long timerInterval) {
             TIMER_INTERVAL = timerInterval;
-            TIME_UNTIL_ALARM = ReminderHelper.getTimeUntilAlarmPrefMillis(getBaseContext());
+            TIME_UNTIL_ALARM = ReminderManager.getTimeUntilAlarmPrefMillis(getBaseContext());
             COUNTDOWN_FORMAT = getString(R.string.time_until_next_reminder_format);
         }
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
                     action.equals(getString(R.string.intent_stop_reminders)) ||
                     action.equals(getString(R.string.intent_postpone_next_reminder)) ||
                     action.equals(getString(R.string.intent_hit_reminder))) {
-                updateReminderUiStatus(ReminderHelper.areRemindersActive(context));
+                updateReminderUiStatus(ReminderManager.areRemindersActive(context));
             } else {
                 throw new UnsupportedOperationException(
                         "The update ui broadcast receiver does not support action " + action);
@@ -120,14 +120,14 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
         IntentFilter filter = new IntentFilter();
-        filter.setPriority(1); // Less than 2, which is the priority of ReminderHelper's, to run after it
+        filter.setPriority(1); // Less than 2, which is the priority of ReminderManager's, to run after it
         filter.addAction(getString(R.string.intent_start_reminders));
         filter.addAction(getString(R.string.intent_stop_reminders));
         filter.addAction(getString(R.string.intent_postpone_next_reminder));
         filter.addAction(getString(R.string.intent_hit_reminder));
         registerReceiver(updateUiBroadcastReceiver, filter);
 
-        updateReminderUiStatus(ReminderHelper.areRemindersActive(this));
+        updateReminderUiStatus(ReminderManager.areRemindersActive(this));
     }
 
     @Override
@@ -176,11 +176,11 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.menu_start_reminders:
-                ReminderHelper.sendStartRemindersBroadcast(this);
+                ReminderManager.sendStartRemindersBroadcast(this);
                 disableStartStopMenuItems(true);
                 break;
             case R.id.menu_stop_reminders:
-                ReminderHelper.sendStopRemindersBroadcast(this);
+                ReminderManager.sendStopRemindersBroadcast(this);
                 disableStartStopMenuItems(false);
                 break;
             case R.id.menu_stats:

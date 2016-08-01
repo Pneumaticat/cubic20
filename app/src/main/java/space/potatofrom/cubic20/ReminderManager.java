@@ -14,8 +14,8 @@ import android.widget.Toast;
 /**
  * Helper static class to manage reminders & listen for broadcasts
  */
-public class ReminderHelper {
-    private ReminderHelper() { }
+public class ReminderManager {
+    private ReminderManager() { }
 
     /**
      * Updates alarm when it fires
@@ -237,7 +237,7 @@ public class ReminderHelper {
                 getNextAlarmTimePref(context) + getReminderIntervalMillis(context));
 
         if (displayUi) {
-            long millisUntilAlarm = ReminderHelper.getTimeUntilAlarmPrefMillis(context);
+            long millisUntilAlarm = ReminderManager.getTimeUntilAlarmPrefMillis(context);
             long seconds = (millisUntilAlarm / 1000) % 60;
             long minutes = (millisUntilAlarm / (1000 * 60));
             String nextAlarmTime = context.getString(

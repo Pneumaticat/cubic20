@@ -26,7 +26,7 @@ public class OrderedBroadcastForwarder extends BroadcastReceiver {
     // Note to me in the future: DO NOT CHANGE THESE values, especially
     // HIT_REMINDER's. Why? Well, so let's say you have a reminder alarm set
     // for HIT_REMINDER, with a nice PendingIntent and requestCode 3. If you
-    // change REQUEST_CODE_HIT_REMINDER to, say, 4, ReminderHelper.isAlarmSet
+    // change REQUEST_CODE_HIT_REMINDER to, say, 4, ReminderManager.isAlarmSet
     // will check for a HIT_REMINDER PendingIntent with requestCode 4, find
     // none, and thus that previously-set alarm will be forgotten by the app.
     // This isn't that big of a deal (mainly because rebooting will easily

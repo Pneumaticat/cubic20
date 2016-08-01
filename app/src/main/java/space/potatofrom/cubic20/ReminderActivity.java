@@ -56,7 +56,7 @@ public class ReminderActivity extends AppCompatActivity {
         }
 
         // Prepare for countdown
-        final int reminderLength = ReminderHelper.getReminderLength(this);
+        final int reminderLength = ReminderManager.getReminderLength(this);
         final Handler handler = new Handler();
         final TextView counterDown = (TextView) findViewById(R.id.notification_counterdown);
         final TextView countdownDesc = (TextView) findViewById(R.id.notification_countdown_desc);
@@ -114,7 +114,7 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     public void stopReminders(View button) {
-        ReminderHelper.sendStopRemindersBroadcast(this);
+        ReminderManager.sendStopRemindersBroadcast(this);
         close();
     }
 

@@ -23,8 +23,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                 .setContentText(
                         context.getResources().getQuantityString(
                                 R.plurals.notification_text,
-                                ReminderHelper.getReminderInterval(context),
-                                ReminderHelper.getReminderInterval(context)))
+                                ReminderManager.getReminderInterval(context),
+                                ReminderManager.getReminderInterval(context)))
                 .setOngoing(true)
                 .setContentIntent(PendingIntent.getActivity(
                         context,
@@ -35,8 +35,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                         R.drawable.ic_update_black_24dp,
                         context.getResources().getQuantityString(
                                 R.plurals.notification_postpone,
-                                ReminderHelper.getReminderInterval(context),
-                                ReminderHelper.getReminderInterval(context)),
+                                ReminderManager.getReminderInterval(context),
+                                ReminderManager.getReminderInterval(context)),
                         PendingIntent.getBroadcast(
                                 context,
                                 OrderedBroadcastForwarder.REQUEST_CODE_POSTPONE_NEXT_REMINDER,
