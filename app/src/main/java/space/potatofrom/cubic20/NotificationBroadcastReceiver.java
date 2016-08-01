@@ -18,7 +18,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
     private static Notification getOngoingNotification(Context context) {
         return new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_brightness_medium_black_24dp)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(context.getString(R.string.notification_title))
                 .setContentText(
                         context.getResources().getQuantityString(
