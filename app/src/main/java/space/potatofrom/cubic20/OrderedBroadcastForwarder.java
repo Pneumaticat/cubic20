@@ -8,6 +8,10 @@ import android.content.Intent;
  * Created by kevin on 7/13/16.
  */
 public class OrderedBroadcastForwarder extends BroadcastReceiver {
+    // If you change the value of this, remember to update AndroidManifest.xml
+    // too!
+    public static final String ACTION_FORWARD =
+            "space.potatofrom.cubic20.OrderedBroadcastForwarder.FORWARD";
     public static final String EXTRA_ACTION =
             "space.potatofrom.cubic20.OrderedBroadcastForwarder.ACTION";
 

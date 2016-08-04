@@ -40,7 +40,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                         PendingIntent.getBroadcast(
                                 context,
                                 OrderedBroadcastForwarder.REQUEST_CODE_POSTPONE_NEXT_REMINDER,
-                                new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
+                                new Intent(OrderedBroadcastForwarder.ACTION_FORWARD)
                                         .putExtra(
                                                 OrderedBroadcastForwarder.EXTRA_ACTION,
                                                 "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER"),
@@ -51,7 +51,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                         PendingIntent.getBroadcast(
                                 context,
                                 OrderedBroadcastForwarder.REQUEST_CODE_STOP_REMINDERS,
-                                new Intent("space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST")
+                                new Intent(OrderedBroadcastForwarder.ACTION_FORWARD)
                                         .putExtra(
                                                 OrderedBroadcastForwarder.EXTRA_ACTION,
                                                 "space.potatofrom.cubic20.STOP_REMINDERS"),

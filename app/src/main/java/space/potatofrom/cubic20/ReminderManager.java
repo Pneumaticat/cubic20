@@ -48,7 +48,7 @@ public class ReminderManager {
         return PendingIntent.getBroadcast(
                 context,
                 OrderedBroadcastForwarder.REQUEST_CODE_HIT_REMINDER,
-                new Intent(context.getString(R.string.intent_fw_as_ordered_broadcast))
+                new Intent(OrderedBroadcastForwarder.ACTION_FORWARD)
                         .putExtra(
                                 OrderedBroadcastForwarder.EXTRA_ACTION,
                                 context.getString(R.string.intent_hit_reminder)),

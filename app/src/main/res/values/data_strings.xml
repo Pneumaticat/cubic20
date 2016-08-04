@@ -19,7 +19,6 @@
         AndroidManifest.xml, as using strings for intents is not allowed
         there.
     -->
-    <string name="intent_fw_as_ordered_broadcast">space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST</string>
     <string name="intent_start_reminders">space.potatofrom.cubic20.START_REMINDERS</string>
     <string name="intent_stop_reminders">space.potatofrom.cubic20.STOP_REMINDERS</string>
     <string name="intent_postpone_next_reminder">space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER</string>

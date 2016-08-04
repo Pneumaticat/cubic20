@@ -40,7 +40,7 @@
             android:name=".OrderedBroadcastForwarder"
             android:exported="false">
             <intent-filter>
-                <action android:name="space.potatofrom.cubic20.FORWARD_AS_ORDERED_BROADCAST" />
+                <action android:name="space.potatofrom.cubic20.OrderedBroadcastForwarder.FORWARD" />
             </intent-filter>
         </receiver>
         <receiver
