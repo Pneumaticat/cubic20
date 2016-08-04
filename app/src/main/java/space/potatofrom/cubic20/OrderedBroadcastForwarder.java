@@ -44,10 +44,18 @@ public class OrderedBroadcastForwarder extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent)
     {
-        Intent forwardIntent = new Intent(intent.getStringExtra(EXTRA_ACTION));
-        forwardIntent.putExtras(intent);
-        forwardIntent.removeExtra(EXTRA_ACTION);
+        String action = intent.getAction();
 
-        context.sendOrderedBroadcast(forwardIntent, null);
+        switch (action) {
+            case ACTION_FORWARD:
+                Intent forwardIntent = new Intent(intent.getStringExtra(EXTRA_ACTION));
+                forwardIntent.putExtras(intent);
+                forwardIntent.removeExtra(EXTRA_ACTION);
+
+                context.sendOrderedBroadcast(forwardIntent, null);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unsupported action " + action);
+        }
     }
 }
