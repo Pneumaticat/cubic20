@@ -50,7 +50,6 @@
                 <action android:name="space.potatofrom.cubic20.START_REMINDERS" />
                 <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
@@ -83,6 +82,18 @@
                 <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
                 <action android:name="space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER" />
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
+            </intent-filter>
+        </receiver>
+        <!--
+            Disabled by default; enabled programmatically when start-on-boot
+            shared preference is enabled.
+        -->
+        <receiver
+            android:name=".ReminderBootReceiver"
+            android:exported="false"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 

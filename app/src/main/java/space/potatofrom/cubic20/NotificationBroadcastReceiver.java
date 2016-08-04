@@ -77,13 +77,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 
         String action = intent.getAction();
 
-        if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-            if (prefs.getBoolean(
-                    context.getString(R.string.pref_key_start_on_boot),
-                    false)) {
-                notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
-            }
-        } else if (action.equals(context.getString(R.string.intent_start_reminders))) {
+        if (action.equals(context.getString(R.string.intent_start_reminders))) {
             // Only create ongoing notification if allowed by preferences
             if (prefs.getBoolean(
                     context.getString(R.string.pref_key_show_persistent_notification),
