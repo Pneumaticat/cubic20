@@ -80,7 +80,7 @@ public class ReminderManager {
     /**
      * Returns the system time, in milliseconds, of the next scheduled alarm
      */
-    public static long getNextAlarmTimePref(Context context) {
+    public static long getNextAlarmTimePrefMillis(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final long errorValue = Long.MIN_VALUE;
         long nextAlarmTime = prefs.getLong(
@@ -98,7 +98,7 @@ public class ReminderManager {
      * Returns the time, in milliseconds, until the next scheduled alarm
      */
     public static long getTimeUntilAlarmPrefMillis(Context context) {
-        return getNextAlarmTimePref(context) - System.currentTimeMillis();
+        return getNextAlarmTimePrefMillis(context) - System.currentTimeMillis();
     }
 
     private static boolean isAlarmSet(Context context) {
@@ -231,10 +231,10 @@ public class ReminderManager {
     public static void postponeNextReminder(Context context, boolean displayUi) {
         updateAlarm(
                 context,
-                getNextAlarmTimePref(context) + getReminderIntervalMillis(context));
+                getNextAlarmTimePrefMillis(context) + getReminderIntervalMillis(context));
         setNextAlarmTimePref(
                 context,
-                getNextAlarmTimePref(context) + getReminderIntervalMillis(context));
+                getNextAlarmTimePrefMillis(context) + getReminderIntervalMillis(context));
 
         if (displayUi) {
             long millisUntilAlarm = ReminderManager.getTimeUntilAlarmPrefMillis(context);
