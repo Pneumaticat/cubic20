@@ -43,7 +43,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                                 new Intent(OrderedBroadcastForwarder.ACTION_FORWARD)
                                         .putExtra(
                                                 OrderedBroadcastForwarder.EXTRA_ACTION,
-                                                "space.potatofrom.cubic20.POSTPONE_NEXT_REMINDER"),
+                                                context.getString(R.string.intent_postpone_next_reminder)),
                                 0)).build())
                 .addAction(new NotificationCompat.Action.Builder(
                         R.drawable.ic_alarm_off_black_24dp,
@@ -54,7 +54,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
                                 new Intent(OrderedBroadcastForwarder.ACTION_FORWARD)
                                         .putExtra(
                                                 OrderedBroadcastForwarder.EXTRA_ACTION,
-                                                "space.potatofrom.cubic20.STOP_REMINDERS"),
+                                                context.getString(R.string.intent_stop_reminders)),
                                 0)).build())
                 .addAction(new NotificationCompat.Action.Builder(
                         R.drawable.ic_menu_settings,
