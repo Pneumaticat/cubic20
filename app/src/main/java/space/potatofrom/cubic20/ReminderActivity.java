@@ -20,7 +20,7 @@ public class ReminderActivity extends AppCompatActivity {
     /**
      * Listen for when a reminder is hit, and start ReminderActivity
      */
-    public static class ReminderReceiver extends BroadcastReceiver {
+    public static class HitReminderReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();

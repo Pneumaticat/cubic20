@@ -68,7 +68,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".ReminderActivity$ReminderReceiver"
+            android:name=".ReminderActivity$HitReminderReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
