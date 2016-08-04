@@ -3,6 +3,7 @@ package space.potatofrom.cubic20;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -62,6 +63,9 @@ public class StatsActivity extends AppCompatActivity {
             case R.id.action_refresh:
                 refreshStatsUi();
                 break;
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
             default:
                 throw new UnsupportedOperationException("Unimplemented menu item " + id);
         }
