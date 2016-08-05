@@ -24,6 +24,7 @@
         </activity>
         <activity
             android:name=".ReminderActivity"
+            android:noHistory="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_reminder"
             android:theme="@style/FullscreenTheme" />
