@@ -1,9 +1,12 @@
 package space.potatofrom.cubic20;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,14 +24,55 @@ public class ReminderActivity extends AppCompatActivity {
      * Listen for when a reminder is hit, and start ReminderActivity
      */
     public static class HitReminderReceiver extends BroadcastReceiver {
+        private boolean shouldDisplayReminder(Context context) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // Use official notification API
+                // Disallow reminders when Do Not Disturb is set to none or
+                // priority.
+                NotificationManager notMan =
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                int notificationFilter = notMan.getCurrentInterruptionFilter();
+                return  notificationFilter != NotificationManager.INTERRUPTION_FILTER_NONE &&
+                        notificationFilter != NotificationManager.INTERRUPTION_FILTER_ALARMS &&
+                        notificationFilter != NotificationManager.INTERRUPTION_FILTER_PRIORITY;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Use undocumented value to read interruptions mode in Lollipop
+                try {
+                    int zenModeStatus = Settings.Global.getInt(
+                            context.getContentResolver(), "zen_mode");
+                    switch (zenModeStatus) {
+                        case 0: // Off
+                        case 3: // Alarms only
+                            return true;
+                        case 1: // Priority
+                        case 2: // Total silence
+                            return false;
+                        default:
+                            // Um.
+                            throw new IllegalStateException(
+                                    "Do not Disturb is in unrecognized state " + zenModeStatus);
+                    }
+                } catch (Settings.SettingNotFoundException e) {
+                    // ...Assume yes, we can display.
+                    return true;
+                }
+            } else {
+                // Below Lollipop, no standard do not disturb/interruptions mode,
+                // so always display.
+                return true;
+            }
+        }
+
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(context.getString(R.string.intent_hit_reminder))) {
-                // Start ReminderActivity
-                Intent reminderIntent = new Intent(context, ReminderActivity.class);
-                reminderIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(reminderIntent);
+                if (shouldDisplayReminder(context)) {
+                    // Start ReminderActivity
+                    Intent reminderIntent = new Intent(context, ReminderActivity.class);
+                    reminderIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(reminderIntent);
+                }
             } else {
                     throw new UnsupportedOperationException(
                             "This broadcast receiver does not implement action " + action);
