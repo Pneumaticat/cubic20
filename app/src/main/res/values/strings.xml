@@ -46,7 +46,7 @@
     <string name="toast_stopped_reminders">Reminders have now stopped.</string>
     <string name="toast_postponed_next_reminder">Next reminder has been updated to be %1$s in the future.</string>
     <string name="toast_loading_reminder_status">Turning reminders %1$s…</string>
-    <string name="toast_notification_policy_access_instructions">Please allow cubic20 to have Do not Disturb control so it can disable Do not Disturb.</string>
+    <string name="toast_notification_policy_access_instructions">Please allow cubic20 to have Do not Disturb control so it can disable Do not Disturb. (If you don\'t want to do that, just go back and disable Do not Disturb manually.)</string>
 
     <string name="title_activity_reminder">Time to Look Away!</string>
     <plurals name="reminder_look_away_desc">
