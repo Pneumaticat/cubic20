@@ -46,6 +46,23 @@ public class ReminderManager {
         }
     }
 
+    private static SharedPreferences _prefs = null;
+
+    /**
+     * Simple wrapper to get shared preferences
+     *
+     * Returns the equivalent of
+     * `PreferenceManager.getDefaultSharedPreferences`. Also caches the result
+     * for faster retrieval next time.
+     */
+    private static SharedPreferences prefs(Context context) {
+        if (_prefs == null) {
+            _prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        }
+
+        return _prefs;
+    }
+
     public static boolean isDnDActive(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Use official notification API
@@ -100,8 +117,7 @@ public class ReminderManager {
      * Gets the reminder interval (minutes) from shared preferences
      */
     public static int getReminderInterval(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return Integer.parseInt(prefs.getString(
+        return Integer.parseInt(prefs(context).getString(
                 context.getString(R.string.pref_key_reminder_interval_min), null));
     }
 
@@ -113,8 +129,7 @@ public class ReminderManager {
      * Gets the reminder length (seconds) from shared preferences
      */
     public static int getReminderLength(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return Integer.parseInt(prefs.getString(
+        return Integer.parseInt(prefs(context).getString(
                 context.getString(R.string.pref_key_reminder_length_sec), null));
     }
 
@@ -122,9 +137,8 @@ public class ReminderManager {
      * Returns the system time, in milliseconds, of the next scheduled alarm
      */
     public static long getNextAlarmTimePrefMillis(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         final long errorValue = Long.MIN_VALUE;
-        long nextAlarmTime = prefs.getLong(
+        long nextAlarmTime = prefs(context).getLong(
                 context.getString(R.string.pref_key_next_alarm_time), errorValue);
 
         if (nextAlarmTime == errorValue) {
@@ -147,8 +161,7 @@ public class ReminderManager {
     }
 
     private static boolean isNextAlarmTimePrefSet(Context context) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return prefs.getLong(context.getString(
+        return prefs(context).getLong(context.getString(
                 R.string.pref_key_next_alarm_time), Long.MIN_VALUE) != Long.MIN_VALUE;
     }
 
@@ -201,8 +214,7 @@ public class ReminderManager {
     }
 
     private static void setNextAlarmTimePref(Context context, long systemTimeMillis) {
-        SharedPreferences.Editor prefEditor =
-                PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences.Editor prefEditor = prefs(context).edit();
         prefEditor.putLong(
                 context.getString(R.string.pref_key_next_alarm_time),
                 systemTimeMillis);
@@ -217,8 +229,7 @@ public class ReminderManager {
     }
 
     private static void removeNextAlarmTimePref(Context context) {
-        SharedPreferences.Editor prefEditor =
-                PreferenceManager.getDefaultSharedPreferences(context).edit();
+        SharedPreferences.Editor prefEditor = prefs(context).edit();
         prefEditor.remove(context.getString(R.string.pref_key_next_alarm_time));
         prefEditor.apply();
     }
