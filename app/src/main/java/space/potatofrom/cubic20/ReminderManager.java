@@ -46,6 +46,45 @@ public class ReminderManager {
         }
     }
 
+    public static boolean isDnDActive(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Use official notification API
+            // Disallow reminders when Do Not Disturb is set to none or
+            // priority.
+            NotificationManager notMan =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            int notificationFilter = notMan.getCurrentInterruptionFilter();
+            return  notificationFilter == NotificationManager.INTERRUPTION_FILTER_NONE ||
+                    notificationFilter == NotificationManager.INTERRUPTION_FILTER_ALARMS ||
+                    notificationFilter == NotificationManager.INTERRUPTION_FILTER_PRIORITY;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Use undocumented value to read interruptions mode in Lollipop
+            try {
+                int zenModeStatus = Settings.Global.getInt(
+                        context.getContentResolver(), "zen_mode");
+                switch (zenModeStatus) {
+                    case 0: // Off
+                    case 3: // Alarms only
+                        return false;
+                    case 1: // Priority
+                    case 2: // Total silence
+                        return true;
+                    default:
+                        // Um.
+                        throw new IllegalStateException(
+                                "Do not Disturb is in unrecognized state " + zenModeStatus);
+                }
+            } catch (Settings.SettingNotFoundException e) {
+                // ...Assume yes, we can display.
+                return false;
+            }
+        } else {
+            // Below Lollipop, no standard do not disturb/interruptions mode,
+            // so always display.
+            return false;
+        }
+    }
+
     private static PendingIntent getHitReminderPendingIntent(Context context, int flags) {
         return PendingIntent.getBroadcast(
                 context,

@@ -9,6 +9,9 @@
     <string name="main_reminder_status_off">Off</string>
     <string name="main_reminder_status_loading">Loading…</string>
 
+    <string name="main_snackbar_dnd_text">Warning: Do not Disturb is on; reminders will be skipped.</string>
+    <string name="main_snackbar_dnd_disable_dnd">Disable DnD</string>
+
     <string name="time_until_next_reminder_format">%1$02dm%2$02ds</string>
 
     <string name="countdown_display_desc">Time until next reminder:</string>
@@ -43,6 +46,7 @@
     <string name="toast_stopped_reminders">Reminders have now stopped.</string>
     <string name="toast_postponed_next_reminder">Next reminder has been updated to be %1$s in the future.</string>
     <string name="toast_loading_reminder_status">Turning reminders %1$s…</string>
+    <string name="toast_notification_policy_access_instructions">Please allow cubic20 to have Do not Disturb control so it can disable Do not Disturb.</string>
 
     <string name="title_activity_reminder">Time to Look Away!</string>
     <plurals name="reminder_look_away_desc">

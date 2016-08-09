@@ -1,11 +1,16 @@
 package space.potatofrom.cubic20;
 
+import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +30,16 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private RelativeLayout contentLayout;
     private MenuItem startRemindersMenuItem;
     private MenuItem stopRemindersMenuItem;
     private TextView reminderStatus;
     private LinearLayout countdownDisplayContainer;
     private TextView countdownDisplayText;
     private Timer counterDown;
+    private Snackbar dndSnackbar = null;
+
+    private static final int REQUEST_CODE_NOTIFICATION_POLICY_ACCESS = 1;
 
     private class CountdownTimerTask extends TimerTask {
         private long elapsed = 0;
@@ -87,6 +97,19 @@ public class MainActivity extends AppCompatActivity
             }
         }
     };
+    private BroadcastReceiver dndChangeReceiver = new BroadcastReceiver() {
+        @Override
+        @TargetApi(Build.VERSION_CODES.M)
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED)) {
+                checkDnDState();
+            } else {
+                throw new UnsupportedOperationException(
+                        "This receiver does not support action " + action);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +131,7 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
         // Initialize variables that correspond to view elements
+        contentLayout = (RelativeLayout) findViewById(R.id.content_layout);
         startRemindersMenuItem = navigationView.getMenu().findItem(R.id.menu_start_reminders);
         stopRemindersMenuItem = navigationView.getMenu().findItem(R.id.menu_stop_reminders);
         reminderStatus = (TextView) findViewById(R.id.reminder_status);
@@ -119,15 +143,22 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        IntentFilter filter = new IntentFilter();
-        filter.setPriority(1); // Less than 2, which is the priority of ReminderManager's, to run after it
-        filter.addAction(getString(R.string.intent_start_reminders));
-        filter.addAction(getString(R.string.intent_stop_reminders));
-        filter.addAction(getString(R.string.intent_postpone_next_reminder));
-        filter.addAction(getString(R.string.intent_hit_reminder));
-        registerReceiver(updateUiBroadcastReceiver, filter);
+        IntentFilter uiFilter = new IntentFilter();
+        uiFilter.setPriority(1); // Less than 2, which is the priority of ReminderManager's, to run after it
+        uiFilter.addAction(getString(R.string.intent_start_reminders));
+        uiFilter.addAction(getString(R.string.intent_stop_reminders));
+        uiFilter.addAction(getString(R.string.intent_postpone_next_reminder));
+        uiFilter.addAction(getString(R.string.intent_hit_reminder));
+        registerReceiver(updateUiBroadcastReceiver, uiFilter);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            IntentFilter dndFilter = new IntentFilter();
+            dndFilter.addAction(NotificationManager.ACTION_INTERRUPTION_FILTER_CHANGED);
+            registerReceiver(dndChangeReceiver, dndFilter);
+        }
 
         updateReminderUiStatus(ReminderManager.areRemindersActive(this));
+        checkDnDState();
     }
 
     @Override
@@ -135,6 +166,10 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
 
         unregisterReceiver(updateUiBroadcastReceiver);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            unregisterReceiver(dndChangeReceiver);
+        }
     }
 
     @Override
@@ -199,6 +234,86 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_NOTIFICATION_POLICY_ACCESS:
+                NotificationManager man =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                if (man.isNotificationPolicyAccessGranted()) {
+                    disableDnD();
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException(
+                        "No implementation for request code " + requestCode);
+        }
+    }
+
+    private void checkDnDState() {
+        boolean isSnackbarShown = dndSnackbar != null && dndSnackbar.isShownOrQueued();
+        if (ReminderManager.isDnDActive(this)) {
+            if (!isSnackbarShown) {
+                showDnDWarning();
+            }
+        } else {
+            if (isSnackbarShown) {
+                hideDnDWarning();
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void disableDnD() {
+        NotificationManager man = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        man.setInterruptionFilter(
+                NotificationManager.INTERRUPTION_FILTER_ALL);
+    }
+
+    private void showDnDWarning() {
+        dndSnackbar = Snackbar.make(
+                contentLayout,
+                R.string.main_snackbar_dnd_text,
+                Snackbar.LENGTH_INDEFINITE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Only add DnD disable action if version > Marshmallow (only
+            // available there)
+            dndSnackbar.setAction(
+                    R.string.main_snackbar_dnd_disable_dnd,
+                    new View.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.M)
+                        @Override
+                        public void onClick(View view) {
+                            NotificationManager man =
+                                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                            if (man.isNotificationPolicyAccessGranted()) {
+                                // Yay, we already have access
+                                disableDnD();
+                            } else {
+                                // Kick off a request Activity, whose result
+                                // will be handled in onActivityResult.
+                                startActivityForResult(new Intent(
+                                        Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS),
+                                        REQUEST_CODE_NOTIFICATION_POLICY_ACCESS);
+                                // Make a toast too, to tell the user what to
+                                // do.
+                                Toast.makeText(
+                                        getBaseContext(),
+                                        R.string.toast_notification_policy_access_instructions,
+                                        Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+        }
+        dndSnackbar.show();
+    }
+
+    private void hideDnDWarning() {
+        dndSnackbar.dismiss();
     }
 
     /**
