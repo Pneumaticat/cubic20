@@ -42,6 +42,14 @@ public class ReminderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Allow activity to be shown when locked, and turn on the screen
+        Window window = getWindow();
+        window.addFlags(
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON   |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         setContentView(R.layout.activity_reminder);
 
         ActionBar actionBar = getSupportActionBar();
@@ -101,32 +109,15 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        close();
+    protected void onResume() {
+        super.onResume();
+        closed = false;
     }
 
     @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        // Allow activity to be shown on the lockscreen, and turn the screen on
-        // This must be in `onAttachedToWindow`; see
-        // https://stackoverflow.com/questions/9958080/.
-        getWindow().addFlags(
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                        | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-    }
-
-    private void clearFlags() {
-        // Don't forget to clear the flags at some point in time.
-        getWindow().clearFlags(
-                WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                        | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+    protected void onPause() {
+        super.onPause();
+        closed = true;
     }
 
     public void stopReminders(View button) {
@@ -135,7 +126,6 @@ public class ReminderActivity extends AppCompatActivity {
     }
 
     private void close() {
-        clearFlags();
         finish();
         closed = true;
     }
