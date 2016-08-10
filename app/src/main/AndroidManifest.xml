@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="space.potatofrom.cubic20">
-
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".MyApp">
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="space.potatofrom.cubic20.MainActivity" />
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -26,12 +34,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ReminderActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_reminder"
-            android:noHistory="true"
-            android:theme="@style/FullscreenTheme" />
-        <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity">
@@ -39,7 +41,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="space.potatofrom.cubic20.MainActivity" />
         </activity>
+        <activity
+            android:name=".StatsActivity"
+            android:label="@string/title_activity_stats"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="space.potatofrom.cubic20.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ReminderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_reminder"
+            android:noHistory="true"
+            android:theme="@style/FullscreenTheme" />
 
+
+
+        <receiver
+            android:name=".NotificationBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="space.potatofrom.cubic20.START_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
+                <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".OrderedBroadcastForwarder"
             android:exported="false">
@@ -48,12 +76,22 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".NotificationBroadcastReceiver"
+            android:name=".ReminderActivity$HitReminderReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="space.potatofrom.cubic20.START_REMINDERS" />
-                <action android:name="space.potatofrom.cubic20.STOP_REMINDERS" />
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
+            </intent-filter>
+        </receiver>
+        <!--
+            Disabled by default; enabled programmatically when start-on-boot
+            shared preference is enabled.
+        -->
+        <receiver
+            android:name=".ReminderBootReceiver"
+            android:exported="false"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
@@ -72,13 +110,6 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".ReminderActivity$HitReminderReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
-            </intent-filter>
-        </receiver>
-        <receiver
             android:name=".StatsBroadcastReceiver"
             android:exported="false">
             <intent-filter>
@@ -88,37 +119,5 @@
                 <action android:name="space.potatofrom.cubic20.HIT_REMINDER" />
             </intent-filter>
         </receiver>
-        <!--
-            Disabled by default; enabled programmatically when start-on-boot
-            shared preference is enabled.
-        -->
-        <receiver
-            android:name=".ReminderBootReceiver"
-            android:exported="false"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_activity_about"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="space.potatofrom.cubic20.MainActivity" />
-        </activity>
-        <activity
-            android:name=".StatsActivity"
-            android:label="@string/title_activity_stats"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="space.potatofrom.cubic20.MainActivity" />
-        </activity>
     </application>
-
 </manifest>

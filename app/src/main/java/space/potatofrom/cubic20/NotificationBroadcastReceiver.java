@@ -72,7 +72,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        NotificationManager notifs = (NotificationManager)
+        NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         String action = intent.getAction();
@@ -82,18 +82,18 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             if (prefs.getBoolean(
                     context.getString(R.string.pref_key_show_persistent_notification),
                     false)) {
-                notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
+                nm.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
             }
         } else if (action.equals(context.getString(R.string.intent_stop_reminders))) {
             // Cancel ongoing notification
-            notifs.cancel(ONGOING_NOTIFICATION_ID);
+            nm.cancel(ONGOING_NOTIFICATION_ID);
         } else if (action.equals(context.getString(R.string.intent_hit_reminder))) {
             // Renotify notification, because a new alarm has been created
             // with a potentially new reminder interval, etc.
             if (prefs.getBoolean(
                     context.getString(R.string.pref_key_show_persistent_notification),
                     false)) {
-                notifs.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
+                nm.notify(ONGOING_NOTIFICATION_ID, getOngoingNotification(context));
             }
         } else {
             throw new UnsupportedOperationException("Unimplemented action " + action);

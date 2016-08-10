@@ -42,21 +42,22 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_CODE_NOTIFICATION_POLICY_ACCESS = 1;
 
     private class CountdownTimerTask extends TimerTask {
-        private long elapsed = 0;
-        private final long TIMER_INTERVAL;
-        private final long TIME_UNTIL_ALARM;
+        private long elapsedMillis = 0;
+        private final long TIMER_INTERVAL_MILLIS;
+        private final long INITIAL_TIME_UNTIL_ALARM_MILLIS;
         private final String COUNTDOWN_FORMAT;
 
-        public CountdownTimerTask(long timerInterval) {
-            TIMER_INTERVAL = timerInterval;
-            TIME_UNTIL_ALARM = ReminderManager.getTimeUntilAlarmPrefMillis(getBaseContext());
+        public CountdownTimerTask(long timerIntervalMillis) {
+            TIMER_INTERVAL_MILLIS = timerIntervalMillis;
+            INITIAL_TIME_UNTIL_ALARM_MILLIS =
+                    ReminderManager.getTimeUntilAlarmPrefMillis(getBaseContext());
             COUNTDOWN_FORMAT = getString(R.string.time_until_next_reminder_format);
         }
 
         @Override
         public void run() {
-            elapsed += TIMER_INTERVAL;
-            if (elapsed >= TIME_UNTIL_ALARM) {
+            elapsedMillis += TIMER_INTERVAL_MILLIS;
+            if (elapsedMillis >= INITIAL_TIME_UNTIL_ALARM_MILLIS) {
                 // Timer's done
                 runOnUiThread(new Runnable() {
                     @Override
@@ -66,9 +67,9 @@ public class MainActivity extends AppCompatActivity
                 });
                 this.cancel();
             } else {
-                final long millisUntilFinished = TIME_UNTIL_ALARM - elapsed;
-                final long seconds = (millisUntilFinished / 1000) % 60;
-                final long minutes = (millisUntilFinished / (1000 * 60));
+                final long timeUntilAlarmMillis = INITIAL_TIME_UNTIL_ALARM_MILLIS - elapsedMillis;
+                final long seconds = (timeUntilAlarmMillis / 1000) % 60;
+                final long minutes = (timeUntilAlarmMillis / (1000 * 60));
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -359,13 +360,13 @@ public class MainActivity extends AppCompatActivity
             reminderStatus.setText(R.string.main_reminder_status_on);
             countdownDisplayContainer.setVisibility(View.VISIBLE);
 
-            final long TIMER_INTERVAL = 1000;
+            final long TIMER_INTERVAL_MILLIS = 1000;
 
             counterDown = new Timer();
             counterDown.scheduleAtFixedRate(
-                    new CountdownTimerTask(TIMER_INTERVAL),
+                    new CountdownTimerTask(TIMER_INTERVAL_MILLIS),
                     0,
-                    TIMER_INTERVAL);
+                    TIMER_INTERVAL_MILLIS);
         } else {
             startRemindersMenuItem.setEnabled(true);
             stopRemindersMenuItem.setEnabled(false);

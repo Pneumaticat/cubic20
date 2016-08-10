@@ -80,10 +80,10 @@ public class ReminderActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (isOpen) {
-                            int previous = Integer.parseInt(counterDown.getText().toString());
-                            int current = previous - 1;
-                            counterDown.setText(String.valueOf(current));
-                            if (current > 0) {
+                            int previousNo = Integer.parseInt(counterDown.getText().toString());
+                            int currentNo = previousNo - 1;
+                            counterDown.setText(String.valueOf(currentNo));
+                            if (currentNo > 0) {
                                 // Wait for it, wait for it
                                 handler.postDelayed(this, COUNTDOWN_INTERVAL_MILLIS);
                             } else {
