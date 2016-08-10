@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class ReminderActivity extends AppCompatActivity {
     // Used to stop countdown after activity closes
-    private boolean closed = false;
+    private boolean isOpen = true;
 
     /**
      * Listen for when a reminder is hit, and start ReminderActivity
@@ -79,7 +79,7 @@ public class ReminderActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (!closed) {
+                        if (isOpen) {
                             int previous = Integer.parseInt(counterDown.getText().toString());
                             int current = previous - 1;
                             counterDown.setText(String.valueOf(current));
@@ -111,13 +111,13 @@ public class ReminderActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        closed = false;
+        isOpen = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        closed = true;
+        isOpen = false;
     }
 
     public void stopReminders(View button) {
@@ -127,6 +127,6 @@ public class ReminderActivity extends AppCompatActivity {
 
     private void close() {
         finish();
-        closed = true;
+        isOpen = false;
     }
 }
