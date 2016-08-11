@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 /**
  * Helper static class to manage reminders & listen for broadcasts
+ *
+ * Think of it like systemd, in that it manages everything.
  */
 public class ReminderManager {
     private ReminderManager() { }
