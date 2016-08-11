@@ -63,42 +63,47 @@ public class ReminderManager {
         return _prefs;
     }
 
-    public static boolean isDnDActive(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Use official notification API
-            // Disallow reminders when Do Not Disturb is set to none or
-            // priority.
-            NotificationManager notMan =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            int notificationFilter = notMan.getCurrentInterruptionFilter();
-            return  notificationFilter == NotificationManager.INTERRUPTION_FILTER_NONE ||
-                    notificationFilter == NotificationManager.INTERRUPTION_FILTER_ALARMS ||
-                    notificationFilter == NotificationManager.INTERRUPTION_FILTER_PRIORITY;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Use undocumented value to read interruptions mode in Lollipop
-            try {
-                int zenModeStatus = Settings.Global.getInt(
-                        context.getContentResolver(), "zen_mode");
-                switch (zenModeStatus) {
-                    case 0: // Off
-                    case 3: // Alarms only
-                        return false;
-                    case 1: // Priority
-                    case 2: // Total silence
-                        return true;
-                    default:
-                        // Um.
-                        throw new IllegalStateException(
-                                "Do not Disturb is in unrecognized state " + zenModeStatus);
+    public static boolean isDnDPreventingReminders(Context context) {
+        if (prefs(context).getBoolean(
+                context.getString(R.string.pref_key_dnd_skip_reminders), true)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // Use official notification API
+                // Disallow reminders when Do Not Disturb is set to none or
+                // priority.
+                NotificationManager notMan =
+                        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                int notificationFilter = notMan.getCurrentInterruptionFilter();
+                return notificationFilter == NotificationManager.INTERRUPTION_FILTER_NONE ||
+                        notificationFilter == NotificationManager.INTERRUPTION_FILTER_ALARMS ||
+                        notificationFilter == NotificationManager.INTERRUPTION_FILTER_PRIORITY;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                // Use undocumented value to read interruptions mode in Lollipop
+                try {
+                    int zenModeStatus = Settings.Global.getInt(
+                            context.getContentResolver(), "zen_mode");
+                    switch (zenModeStatus) {
+                        case 0: // Off
+                        case 3: // Alarms only
+                            return false;
+                        case 1: // Priority
+                        case 2: // Total silence
+                            return true;
+                        default:
+                            // Um.
+                            throw new IllegalStateException(
+                                    "Do not Disturb is in unrecognized state " + zenModeStatus);
+                    }
+                } catch (Settings.SettingNotFoundException e) {
+                    // ...Assume yes, we can display.
+                    return false;
                 }
-            } catch (Settings.SettingNotFoundException e) {
-                // ...Assume yes, we can display.
+            } else {
+                // Below Lollipop, no standard do not disturb/interruptions mode,
+                // so always display.
                 return false;
             }
         } else {
-            // Below Lollipop, no standard do not disturb/interruptions mode,
-            // so always display.
-            return false;
+            return false; // DnD-pauses-reminders preference set to false
         }
     }
 

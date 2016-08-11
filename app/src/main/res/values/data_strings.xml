@@ -5,6 +5,7 @@
     <string name="pref_key_reminder_length_sec">reminder_length</string>
     <string name="pref_key_start_on_boot">start_on_boot</string>
     <string name="pref_key_show_persistent_notification">show_persistent_notification</string>
+    <string name="pref_key_dnd_skip_reminders">dnd_pause_reminders</string>
 
     <string name="pref_key_stats_reminders_started">stats_reminders_started</string>
     <string name="pref_key_stats_reminders_stopped">stats_reminders_stopped</string>

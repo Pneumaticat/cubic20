@@ -25,7 +25,7 @@ public class ReminderActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(context.getString(R.string.intent_hit_reminder))) {
-                if (!ReminderManager.isDnDActive(context)) {
+                if (!ReminderManager.isDnDPreventingReminders(context)) {
                     // Start ReminderActivity
                     Intent reminderIntent = new Intent(context, ReminderActivity.class);
                     reminderIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

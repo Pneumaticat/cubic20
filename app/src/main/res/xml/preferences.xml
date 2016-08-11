@@ -22,4 +22,9 @@
         android:summary="@string/pref_summary_show_persistent_notification"
         android:title="@string/pref_title_show_persistent_notification"
         android:defaultValue="false" />
+    <CheckBoxPreference
+        android:key="@string/pref_key_dnd_skip_reminders"
+        android:summary="@string/pref_summary_dnd_skip_reminders"
+        android:title="@string/pref_title_dnd_skip_reminders"
+        android:defaultValue="true" />
 </PreferenceScreen>

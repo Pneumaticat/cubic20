@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity
 
     private void checkDnDState() {
         boolean isSnackbarShown = dndSnackbar != null && dndSnackbar.isShownOrQueued();
-        if (ReminderManager.isDnDActive(this)) {
+        if (ReminderManager.isDnDPreventingReminders(this)) {
             if (!isSnackbarShown) {
                 showDnDWarning();
             }
