@@ -99,7 +99,7 @@ public class StatsActivity extends AppCompatActivity {
                 .normalizedStandard()));
     }
 
-    private void clearStats() {
+    private void resetStats() {
         SharedPreferences.Editor prefEditor = prefs.edit();
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_started), 0);
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_stopped), 0);
@@ -110,8 +110,8 @@ public class StatsActivity extends AppCompatActivity {
         prefEditor.apply();
     }
 
-    public void clearStatsClick(View view) {
-        clearStats();
+    public void resetStatsClick(View view) {
+        resetStats();
         refreshStatsUi();
     }
 }

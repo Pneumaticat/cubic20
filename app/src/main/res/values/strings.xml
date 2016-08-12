@@ -102,5 +102,5 @@
     <string name="stats_reminders_hit">Reminders hit</string>
     <string name="stats_time_postponed">Postponed reminders for</string>
     <string name="stats_time_rested">Rested eyes for</string>
-    <string name="stats_button_clear_stats">Clear Stats</string>
+    <string name="stats_button_reset_stats">Reset Stats</string>
 </resources>

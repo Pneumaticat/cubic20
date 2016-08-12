@@ -125,9 +125,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/stats_button_clear_stats"
-        android:id="@+id/button_clear_stats"
-        android:onClick="clearStatsClick"
+        android:text="@string/stats_button_reset_stats"
+        android:id="@+id/button_reset_stats"
+        android:onClick="resetStatsClick"
         android:layout_below="@+id/tableLayout"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
