@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.joda.time.Period;
@@ -23,6 +24,8 @@ public class StatsActivity extends AppCompatActivity {
     private TextView remindersHitValue;
     private TextView timePostponedValue;
     private TextView timeRestedValue;
+
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ public class StatsActivity extends AppCompatActivity {
         remindersHitValue = (TextView) findViewById(R.id.value_reminders_hit);
         timePostponedValue = (TextView) findViewById(R.id.value_time_postponed);
         timeRestedValue = (TextView) findViewById(R.id.stats_value_time_rested);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         refreshStatsUi();
     }
@@ -74,7 +79,6 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void refreshStatsUi() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         remindersStartedValue.setText(String.valueOf(
                 prefs.getInt(getString(R.string.pref_key_stats_reminders_started), 0)));
         remindersStoppedValue.setText(String.valueOf(
@@ -93,5 +97,21 @@ public class StatsActivity extends AppCompatActivity {
                 Period.seconds(
                     prefs.getInt(getString(R.string.pref_key_stats_time_rested_sec), 0))
                 .normalizedStandard()));
+    }
+
+    private void clearStats() {
+        SharedPreferences.Editor prefEditor = prefs.edit();
+        prefEditor.putInt(getString(R.string.pref_key_stats_reminders_started), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_reminders_stopped), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_reminders_postponed), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_reminders_hit), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_time_postponed_min), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_time_rested_sec), 0);
+        prefEditor.apply();
+    }
+
+    public void clearStatsClick(View view) {
+        clearStats();
+        refreshStatsUi();
     }
 }
