@@ -16,6 +16,17 @@ public class StatsBroadcastReceiver extends BroadcastReceiver {
         SharedPreferences.Editor prefEditor = prefs.edit();
         String action = intent.getAction();
 
+        if (prefs.getLong(
+                context.getString(
+                        R.string.pref_key_stats_started_on),
+                        Long.MIN_VALUE) == Long.MIN_VALUE) {
+            // Stats have never been recorded yet; set current time as start
+            // of stats recording
+            prefEditor.putLong(
+                    context.getString(R.string.pref_key_stats_started_on),
+                    System.currentTimeMillis());
+        }
+
         if (action.equals(context.getString(R.string.intent_start_reminders))) {
             String remindersStartedPref =
                     context.getString(R.string.pref_key_stats_reminders_started);

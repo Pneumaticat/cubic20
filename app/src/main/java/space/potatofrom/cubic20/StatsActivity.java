@@ -15,9 +15,11 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 
+import java.util.Date;
 import java.util.Locale;
 
 public class StatsActivity extends AppCompatActivity {
+    private TextView startedOnValue;
     private TextView remindersStartedValue;
     private TextView remindersStoppedValue;
     private TextView remindersPostponedValue;
@@ -38,6 +40,7 @@ public class StatsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        startedOnValue = (TextView) findViewById(R.id.value_started_on);
         remindersStartedValue = (TextView) findViewById(R.id.value_reminders_started);
         remindersStoppedValue = (TextView) findViewById(R.id.value_reminders_stopped);
         remindersPostponedValue = (TextView) findViewById(R.id.value_reminders_postponed);
@@ -79,6 +82,16 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void refreshStatsUi() {
+        long savedStartedOnDate = prefs.getLong(
+                getString(R.string.pref_key_stats_started_on),
+                Long.MIN_VALUE);
+        if (savedStartedOnDate == Long.MIN_VALUE) {
+            // Not set; no stats recorded yet
+            startedOnValue.setText(R.string.stats_no_stats_recorded);
+        } else {
+            startedOnValue.setText(new Date(savedStartedOnDate).toString());
+        }
+
         remindersStartedValue.setText(String.valueOf(
                 prefs.getInt(getString(R.string.pref_key_stats_reminders_started), 0)));
         remindersStoppedValue.setText(String.valueOf(
@@ -101,6 +114,7 @@ public class StatsActivity extends AppCompatActivity {
 
     private void resetStats() {
         SharedPreferences.Editor prefEditor = prefs.edit();
+        prefEditor.remove(getString(R.string.pref_key_stats_started_on));
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_started), 0);
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_stopped), 0);
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_postponed), 0);

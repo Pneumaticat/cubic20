@@ -96,6 +96,8 @@
     <string name="title_activity_stats">Statistics</string>
     <string name="stats_action_refresh">Refresh Stats</string>
     <string name="stats_value_error">[ERROR!]</string>
+    <string name="stats_started_on">Started recording stats on</string>
+    <string name="stats_no_stats_recorded">never (no stats recorded yet)</string>
     <string name="stats_reminders_started">Reminders started</string>
     <string name="stats_reminders_stopped">Reminders stopped</string>
     <string name="stats_reminders_postponed">Reminders postponed</string>
