@@ -15,6 +15,7 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -89,7 +90,11 @@ public class StatsActivity extends AppCompatActivity {
             // Not set; no stats recorded yet
             startedOnValue.setText(R.string.stats_no_stats_recorded);
         } else {
-            startedOnValue.setText(new Date(savedStartedOnDate).toString());
+            DateFormat dateFormatter = DateFormat.getDateTimeInstance(
+                    DateFormat.MEDIUM,
+                    DateFormat.MEDIUM,
+                    Locale.getDefault());
+            startedOnValue.setText(dateFormatter.format(new Date(savedStartedOnDate)));
         }
 
         remindersStartedValue.setText(String.valueOf(
