@@ -69,4 +69,5 @@
             android:text="@string/countdown_display_error"
             android:id="@+id/countdown_display_text" />
     </LinearLayout>
+
 </RelativeLayout>

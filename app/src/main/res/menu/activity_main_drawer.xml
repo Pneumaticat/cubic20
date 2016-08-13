@@ -6,11 +6,11 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/menu_start_reminders"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_visibility"
             android:title="@string/main_drawer_start_reminders" />
         <item
             android:id="@+id/menu_stop_reminders"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_visibility_off"
             android:title="@string/main_drawer_stop_reminders"
             android:enabled="false" />
     </group>
