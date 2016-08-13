@@ -88,7 +88,7 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
             // Cancel ongoing notification
             nm.cancel(ONGOING_NOTIFICATION_ID);
         } else if (action.equals(context.getString(R.string.intent_hit_reminder))) {
-            // Renotify notification, because a new alarm has been created
+            // Re-notify notification, because a new alarm has been created
             // with a potentially new reminder interval, etc.
             if (prefs.getBoolean(
                     context.getString(R.string.pref_key_show_persistent_notification),

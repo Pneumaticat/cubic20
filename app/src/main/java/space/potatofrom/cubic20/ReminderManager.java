@@ -18,7 +18,7 @@ import android.widget.Toast;
  *
  * Think of it like systemd, in that it manages everything.
  */
-public class ReminderManager {
+class ReminderManager {
     private ReminderManager() { }
 
     /**
@@ -33,11 +33,11 @@ public class ReminderManager {
             String action = intent.getAction();
 
             if (action.equals(context.getString(R.string.intent_start_reminders))) {
-                startReminders(context, true);
+                startReminders(context);
             } else if (action.equals(context.getString(R.string.intent_stop_reminders))) {
-                stopReminders(context, true);
+                stopReminders(context);
             } else if (action.equals(context.getString(R.string.intent_postpone_next_reminder))) {
-                postponeNextReminder(context, true);
+                postponeNextReminder(context);
             } else if (action.equals(context.getString(R.string.intent_hit_reminder))) {
                 createAlarm(context);
                 updateNextAlarmTimePref(context);
@@ -128,7 +128,7 @@ public class ReminderManager {
                 context.getString(R.string.pref_key_reminder_interval_min), null));
     }
 
-    public static long getReminderIntervalMillis(Context context) {
+    private static long getReminderIntervalMillis(Context context) {
         return getReminderInterval(context) * 60L * 1000;
     }
 
@@ -143,7 +143,7 @@ public class ReminderManager {
     /**
      * Returns the system time, in milliseconds, of the next scheduled alarm
      */
-    public static long getNextAlarmTimePrefMillis(Context context) {
+    private static long getNextAlarmTimePrefMillis(Context context) {
         final long errorValue = Long.MIN_VALUE;
         long nextAlarmTime = prefs(context).getLong(
                 context.getString(R.string.pref_key_next_alarm_time), errorValue);
@@ -200,7 +200,7 @@ public class ReminderManager {
         }
     }
 
-    private static void startReminders(Context context, boolean displayUi) {
+    private static void startReminders(Context context) {
         if (areRemindersActive(context)) {
             throw new IllegalStateException(
                     "Attempted to enable tracking when tracking is already enabled.");
@@ -209,15 +209,13 @@ public class ReminderManager {
         createAlarm(context);
         updateNextAlarmTimePref(context);
 
-        if (displayUi) {
-            Toast.makeText(
-                    context,
-                    context.getResources().getQuantityString(
+        Toast.makeText(
+                context,
+                context.getResources().getQuantityString(
                             R.plurals.toast_created_alarm,
                             getReminderInterval(context),
                             getReminderInterval(context)),
-                    Toast.LENGTH_SHORT).show();
-        }
+                Toast.LENGTH_SHORT).show();
     }
 
     private static void setNextAlarmTimePref(Context context, long systemTimeMillis) {
@@ -231,7 +229,7 @@ public class ReminderManager {
     /**
      * Updates the next alarm time to be current time + [reminder interval].
      */
-    public static void updateNextAlarmTimePref(Context context) {
+    private static void updateNextAlarmTimePref(Context context) {
         setNextAlarmTimePref(context, System.currentTimeMillis() + getReminderIntervalMillis(context));
     }
 
@@ -287,7 +285,7 @@ public class ReminderManager {
         }
     }
 
-    public static void postponeNextReminder(Context context, boolean displayUi) {
+    private static void postponeNextReminder(Context context) {
         updateAlarm(
                 context,
                 getNextAlarmTimePrefMillis(context) + getReminderIntervalMillis(context));
@@ -295,22 +293,20 @@ public class ReminderManager {
                 context,
                 getNextAlarmTimePrefMillis(context) + getReminderIntervalMillis(context));
 
-        if (displayUi) {
-            long millisUntilAlarm = ReminderManager.getTimeUntilAlarmPrefMillis(context);
-            long seconds = (millisUntilAlarm / 1000) % 60;
-            long minutes = (millisUntilAlarm / (1000 * 60));
-            String nextAlarmTime = context.getString(
-                    R.string.time_until_next_reminder_format,
-                    minutes,
-                    seconds);
-            Toast.makeText(
-                    context,
-                    context.getString(R.string.toast_postponed_next_reminder, nextAlarmTime),
-                    Toast.LENGTH_SHORT).show();
-        }
+        long millisUntilAlarm = ReminderManager.getTimeUntilAlarmPrefMillis(context);
+        long seconds = (millisUntilAlarm / 1000) % 60;
+        long minutes = (millisUntilAlarm / (1000 * 60));
+        String nextAlarmTime = context.getString(
+                R.string.time_until_next_reminder_format,
+                minutes,
+                seconds);
+        Toast.makeText(
+                context,
+                context.getString(R.string.toast_postponed_next_reminder, nextAlarmTime),
+                Toast.LENGTH_SHORT).show();
     }
 
-    private static void stopReminders(Context context, boolean displayUi) {
+    private static void stopReminders(Context context) {
         if (!areRemindersActive(context)) {
             throw new IllegalStateException(
                     "Attempted to disable tracking when tracking is already inactive.");
@@ -319,12 +315,10 @@ public class ReminderManager {
         removeAlarm(context);
         removeNextAlarmTimePref(context);
 
-        if (displayUi) {
-            Toast.makeText(
-                    context,
-                    R.string.toast_stopped_reminders,
-                    Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(
+                context,
+                R.string.toast_stopped_reminders,
+                Toast.LENGTH_SHORT).show();
     }
 
     public static void sendStartRemindersBroadcast(Context context) {

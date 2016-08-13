@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/main_welcome_message"
-        android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -29,7 +28,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/main_reminder_status_desc"
-        android:id="@+id/textView4"
         android:layout_above="@+id/reminder_status"
         android:layout_centerHorizontal="true" />
 
@@ -57,7 +55,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/countdown_display_desc"
-            android:id="@+id/textView5"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="5dp"
             android:layout_marginEnd="5dp" />

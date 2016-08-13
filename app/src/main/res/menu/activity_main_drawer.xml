@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/menu_reminder_control"
-        android:checkableBehavior="none">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/menu_start_reminders"
             android:icon="@drawable/ic_menu_visibility"
@@ -15,7 +13,7 @@
             android:enabled="false" />
     </group>
 
-    <group android:id="@+id/menu_activities">
+    <group>
         <item
             android:id="@+id/menu_stats"
             android:icon="@drawable/ic_menu_poll"

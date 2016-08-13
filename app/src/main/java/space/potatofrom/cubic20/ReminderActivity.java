@@ -120,7 +120,7 @@ public class ReminderActivity extends AppCompatActivity {
         isOpen = false;
     }
 
-    public void stopReminders(View button) {
+    public void stopReminders(@SuppressWarnings("UnusedParameters") View button) {
         ReminderManager.sendStopRemindersBroadcast(this);
         close();
     }

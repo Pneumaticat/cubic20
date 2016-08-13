@@ -124,7 +124,7 @@ public class StatsActivity extends AppCompatActivity {
         prefEditor.apply();
     }
 
-    public void resetStatsClick(View view) {
+    public void resetStatsClick(@SuppressWarnings("UnusedParameters") View view) {
         resetStats();
         refreshStatsUi();
     }

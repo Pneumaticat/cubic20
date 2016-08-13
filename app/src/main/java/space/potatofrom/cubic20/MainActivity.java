@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private BroadcastReceiver updateUiBroadcastReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver updateUiBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     };
-    private BroadcastReceiver dndChangeReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver dndChangeReceiver = new BroadcastReceiver() {
         @Override
         @TargetApi(Build.VERSION_CODES.M)
         public void onReceive(Context context, Intent intent) {

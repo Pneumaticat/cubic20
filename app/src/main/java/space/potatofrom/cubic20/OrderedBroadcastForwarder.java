@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Created by kevin on 7/13/16.
+ * Utility class to forward received broadcasts as a new ordered broadcast
  */
 public class OrderedBroadcastForwarder extends BroadcastReceiver {
     // If you change the value of this, remember to update AndroidManifest.xml

@@ -5,15 +5,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import java.util.Map;
 
-/**
- * Created by kevin on 7/6/16.
- */
 public class SettingsFragment
         extends PreferenceFragment
         implements SharedPreferences.OnSharedPreferenceChangeListener {
