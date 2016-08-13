@@ -42,7 +42,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stats_reminders_started" />
+                android:text="@string/stats_reminder_sessions_started" />
             <TextView
                 android:id="@+id/value_reminders_started"
                 android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/stats_reminders_stopped" />
+                android:text="@string/stats_reminder_sessions_stopped" />
             <TextView
                 android:id="@+id/value_reminders_stopped"
                 android:layout_width="wrap_content"

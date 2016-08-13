@@ -98,9 +98,9 @@ public class StatsActivity extends AppCompatActivity {
         }
 
         remindersStartedValue.setText(String.valueOf(
-                prefs.getInt(getString(R.string.pref_key_stats_reminders_started), 0)));
+                prefs.getInt(getString(R.string.pref_key_stats_reminder_sessions_started), 0)));
         remindersStoppedValue.setText(String.valueOf(
-                prefs.getInt(getString(R.string.pref_key_stats_reminders_stopped), 0)));
+                prefs.getInt(getString(R.string.pref_key_stats_reminder_sessions_stopped), 0)));
         remindersPostponedValue.setText(String.valueOf(
                 prefs.getInt(getString(R.string.pref_key_stats_reminders_postponed), 0)));
         remindersHitValue.setText(String.valueOf(
@@ -120,8 +120,8 @@ public class StatsActivity extends AppCompatActivity {
     private void resetStats() {
         SharedPreferences.Editor prefEditor = prefs.edit();
         prefEditor.remove(getString(R.string.pref_key_stats_started_on));
-        prefEditor.putInt(getString(R.string.pref_key_stats_reminders_started), 0);
-        prefEditor.putInt(getString(R.string.pref_key_stats_reminders_stopped), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_reminder_sessions_started), 0);
+        prefEditor.putInt(getString(R.string.pref_key_stats_reminder_sessions_stopped), 0);
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_postponed), 0);
         prefEditor.putInt(getString(R.string.pref_key_stats_reminders_hit), 0);
         prefEditor.putInt(getString(R.string.pref_key_stats_time_postponed_min), 0);

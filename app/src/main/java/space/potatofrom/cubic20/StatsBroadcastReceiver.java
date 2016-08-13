@@ -29,12 +29,12 @@ public class StatsBroadcastReceiver extends BroadcastReceiver {
 
         if (action.equals(context.getString(R.string.intent_start_reminders))) {
             String remindersStartedPref =
-                    context.getString(R.string.pref_key_stats_reminders_started);
+                    context.getString(R.string.pref_key_stats_reminder_sessions_started);
 
             prefEditor.putInt(remindersStartedPref, prefs.getInt(remindersStartedPref, 0) + 1);
         } else if (action.equals(context.getString(R.string.intent_stop_reminders))) {
             String remindersStoppedPref =
-                    context.getString(R.string.pref_key_stats_reminders_stopped);
+                    context.getString(R.string.pref_key_stats_reminder_sessions_stopped);
 
             prefEditor.putInt(remindersStoppedPref, prefs.getInt(remindersStoppedPref, 0) + 1);
         } else if (action.equals(context.getString(R.string.intent_postpone_next_reminder))) {

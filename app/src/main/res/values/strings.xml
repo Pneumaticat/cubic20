@@ -97,8 +97,8 @@
     <string name="stats_action_refresh">Refresh Stats</string>
     <string name="stats_started_on">Started recording stats on</string>
     <string name="stats_no_stats_recorded">never (no stats recorded yet)</string>
-    <string name="stats_reminders_started">Reminders started</string>
-    <string name="stats_reminders_stopped">Reminders stopped</string>
+    <string name="stats_reminder_sessions_started">Reminder sessions started</string>
+    <string name="stats_reminder_sessions_stopped">Reminder sessions stopped</string>
     <string name="stats_reminders_postponed">Reminders postponed</string>
     <string name="stats_reminders_hit">Reminders hit</string>
     <string name="stats_time_postponed">Postponed reminders for</string>
